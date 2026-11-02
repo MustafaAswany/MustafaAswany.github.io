@@ -30,10 +30,10 @@
 }
 html[lang="ar"]{ --display:"Alexandria","Anton",sans-serif; --body:"IBM Plex Sans Arabic","Manrope",system-ui,sans-serif; }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
 html.lenis,html.lenis body{height:auto}
 .lenis.lenis-smooth{scroll-behavior:auto!important}
-body{background:var(--ink);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6;overflow-x:hidden}
+body{background:var(--ink);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6;overflow-x:hidden;overflow-x:clip}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:90;background:var(--ink)}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
@@ -284,6 +284,7 @@ footer .brand svg{width:26px}
 .bbar .prog u{position:absolute;inset:0;background:#5b9dff;transform-origin:left;transform:scaleX(0)}
 .bbar button{border:1px solid var(--line);border-radius:999px;padding:5px 10px;font-size:10.5px;color:var(--fg);transition:border-color .3s}
 .bbar button:hover{border-color:var(--hot)}
+@media (max-width:760px){.agent svg{width:14px;height:17px}.agent span{left:12px;top:14px;font-size:9.5px;padding:3px 6px}.sel b{font-size:9px}}
 @media (max-width:480px){.bbar .prog{display:none}.bbar{font-size:10px;gap:8px}}
 
 @media (prefers-reduced-motion:reduce){
@@ -683,7 +684,7 @@ function makeAgents(){
   if (B.layer) return;
   B.layer = document.createElement("div"); B.layer.className = "build-layer"; B.layer.setAttribute("aria-hidden","true");
   document.body.appendChild(B.layer);
-  [["Layout","#5b9dff"],["Type","#e25a4f"],["Motion","#f2b84b"]].forEach(([n,c],i) => {
+  [["Layout","#5b9dff"],["Type","#e25a4f"],["Motion","#f2b84b"]].slice(0, SMALL ? 2 : 3).forEach(([n,c],i) => {
     const el = document.createElement("div"); el.className = "agent"; el.style.setProperty("--c", c);
     el.innerHTML = `<svg viewBox="0 0 17 21"><path d="M1.5 1.5v15.2l4-3.9 2.9 6.6 3-1.3-2.9-6.5h5.7z"/></svg><span>${n}</span>`;
     B.layer.appendChild(el);
@@ -711,14 +712,14 @@ function reveal(el, instant){
 }
 
 function pump(){ B.agents.forEach(a => { if (!a.busy && B.queue.length) run(a, B.queue.shift()); }); }
-function enqueue(task){ B.queue.push(task); pump(); }
+function enqueue(task){ B.queue.push(task); if (SMALL) while (B.queue.length > 2) B.queue.shift(); pump(); }
 
 function run(a, task){
   const el = task.el, r = el.getBoundingClientRect();
   if (!B.on || !r.width || r.bottom < -80 || r.top > innerHeight + 80) { if (!task.trace) reveal(el, true); return pump(); }
   a.busy = true; clearTimeout(a.idle);
   const X = r.left + scrollX, Y = r.top + scrollY, W = r.width, H = r.height;
-  const k = B.queue.length > 5 ? .45 : B.queue.length > 2 ? .7 : 1;   // catch up smoothly when many layers wait
+  const k = (B.queue.length > 5 ? .45 : B.queue.length > 2 ? .7 : 1) * (SMALL ? .65 : 1);   // catch up when layers wait; snappier on phones
   const box = document.createElement("div"); box.className = "sel"; box.innerHTML = "<i></i><i></i><i></i><i></i><b>0 × 0</b>";
   B.layer.appendChild(box); const lbl = box.querySelector("b");
   const sz = {w:0, h:0};
@@ -728,7 +729,7 @@ function run(a, task){
     .set(box, {x:X, y:Y, width:0, height:0, autoAlpha:1})
     .to(a.el, {x:X+W, y:Y+H, duration:.6*k, ease:"power2.inOut"})
     .to(sz, {w:W, h:H, duration:.6*k, ease:"power2.inOut", onUpdate(){ box.style.width = sz.w+"px"; box.style.height = sz.h+"px"; lbl.textContent = `${Math.round(sz.w)} × ${Math.round(sz.h)}`; }}, "<")
-    .add(() => { if (task.trace) { B.done++; count(); } else reveal(el); })
+    .add(() => { if (task.trace) { if (!task.nocount) { B.done++; count(); } } else reveal(el); })
     .to(a.el, {x:"+=18", y:"+=14", duration:.4*k, ease:"power2.out"})
     .to(box, {autoAlpha:0, duration:.45, onComplete: () => box.remove()}, "<.15");
 }
@@ -736,16 +737,16 @@ function run(a, task){
 function setupBuild(rebuild){
   const targets = [...document.querySelectorAll(BUILD_SEL)];
   if (rebuild) { targets.forEach(el => { el.dataset.built = "1"; gsap.set(el, {autoAlpha:1}); }); return; }
-  if (!B.on || RM || SMALL) {  // phones and reduced motion: quick fade-ins, no agents
+  if (!B.on || RM) {           // reduced motion or build skipped: quick fade-ins, no agents
     targets.forEach(el => { gsap.set(el, {autoAlpha:0}); ScrollTrigger.create({trigger:el, start:"top 96%", once:true, onEnter(){ B.done--; reveal(el); }}); });
     return;
   }
   makeAgents();
   B.total = targets.length + 4; count();
-  $("#bbar").classList.remove("gone");
-  targets.forEach(el => { gsap.set(el, {autoAlpha:0}); ScrollTrigger.create({trigger:el, start:"top 88%", once:true, onEnter(){ enqueue({el}); }}); });
+  if (!SMALL) $("#bbar").classList.remove("gone");
+  targets.forEach(el => { gsap.set(el, {autoAlpha:0}); ScrollTrigger.create({trigger:el, start: SMALL ? "top 96%" : "top 88%", once:true, onEnter(){ if (SMALL) { reveal(el); enqueue({el, trace:true, nocount:true}); } else enqueue({el}); }}); });
 }
-function heroTrace(){ if (!B.on || RM || SMALL || !B.layer) return; ["#giant","#heroPhoto","#heroName",".hero-r"].forEach(s => { const el = $(s); if (el) enqueue({el, trace:true}); }); }
+function heroTrace(){ if (!B.on || RM || !B.layer) return; ["#giant","#heroPhoto","#heroName",".hero-r"].forEach(s => { const el = $(s); if (el) enqueue({el, trace:true}); }); }
 
 $("#bSkip").addEventListener("click", () => {
   B.on = false; try { localStorage.setItem("aswany-build","off"); } catch(_) {}
