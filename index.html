@@ -163,7 +163,6 @@ section{position:relative;padding-block:clamp(80px,11vw,150px)}
 .filters button{font-size:13px;font-weight:600;padding:9px 17px;border-radius:999px;border:1px solid var(--line);color:var(--muted);transition:.3s}
 .filters button:hover{color:var(--fg);border-color:var(--dim)}
 .filters button[aria-pressed="true"]{color:#fff;background:var(--brand);border-color:var(--brand)}
-.filters sup{font-family:var(--mono);font-size:9px;margin-inline-start:4px;opacity:.7}
 .wall{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(14px,2vw,26px);grid-auto-flow:dense}
 .card{grid-column:span 4;display:flex;flex-direction:column;gap:14px;min-width:0}
 .card.w8{grid-column:span 8}.card.w6{grid-column:span 6}.card.w4{grid-column:span 4}
@@ -544,10 +543,7 @@ function render(){
   const L = T[LANG];
   document.querySelectorAll("[data-i]").forEach(el => { const v = L[el.dataset.i]; if (v != null) el.textContent = v; });
   // filters
-  $("#filters").innerHTML = CATS.map(c => {
-    const n = c === "all" ? WORK.length : WORK.filter(w => w.cat === c).length;
-    return `<button type="button" id="f-${c}" data-c="${c}" aria-pressed="${c===currentCat}">${L.cats[c]}<sup>${n}</sup></button>`;
-  }).join("");
+  $("#filters").innerHTML = CATS.map(c => `<button type="button" id="f-${c}" data-c="${c}" aria-pressed="${c===currentCat}">${L.cats[c]}</button>`).join("");
   // wall
   $("#wall").innerHTML = WORK.map((w,i) => `
     <a class="card ${w.size}" href="${w.url}" target="_blank" rel="noopener" data-c="${w.cat}" ${currentCat!=="all"&&currentCat!==w.cat?"hidden":""} data-f="${w.video?L.watch:L.see}">
