@@ -99,7 +99,7 @@ p{margin:0}
 .giant-ar{display:none;font-family:"Alexandria",sans-serif;font-weight:900;font-size:clamp(110px,22vw,340px);line-height:1}
 html[lang="ar"] .giant-en{display:none} html[lang="ar"] .giant-ar{display:inline}
 .hero-photo{position:absolute;left:50%;bottom:0;transform:translateX(-50%);z-index:2;height:min(86%,860px);aspect-ratio:445/1000;max-width:70vw;pointer-events:none}
-.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:top;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6))}
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:top;-webkit-mask-image:linear-gradient(#000 72%,transparent 98%);mask-image:linear-gradient(#000 72%,transparent 98%);filter:drop-shadow(0 30px 60px rgba(0,0,0,.6))}
 .hero-photo::before{content:"";position:absolute;left:50%;top:18%;width:150%;aspect-ratio:1;transform:translateX(-50%);background:radial-gradient(circle,rgba(217,84,74,.28),transparent 62%);z-index:-1}
 .hero-grid{position:relative;z-index:4;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr) minmax(0,.5fr);gap:24px;align-items:end;padding-bottom:clamp(30px,5vh,56px)}
 .hero-l{display:flex;flex-direction:column;gap:14px;min-width:0}
@@ -116,6 +116,9 @@ html[lang="ar"] .role2{font-family:var(--body);letter-spacing:0;font-size:16px}
 .btn.primary:hover{background:var(--hot);color:#fff}
 .btn.ghost{border:1px solid var(--line);background:rgba(13,11,11,.4)}
 .btn.ghost:hover{border-color:var(--fg)}
+.btn.resume{align-self:flex-start;background:var(--brand);color:#fff;padding:13px 20px}
+.btn.resume:hover{background:var(--hot)}
+.btn.resume svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .btn .ar{display:inline-block;transition:transform .4s var(--ease)}
 .btn:hover .ar{transform:translateX(4px)}
 html[dir="rtl"] .btn .ar{transform:scaleX(-1)}
@@ -130,8 +133,12 @@ html[dir="rtl"] .btn:hover .ar{transform:scaleX(-1) translateX(4px)}
 @media (max-width:900px){
   .hero{min-height:auto;padding-top:96px}
   .giant{top:110px}
-  .hero-photo{position:relative;left:auto;transform:none;margin:0 auto;height:auto;width:min(62vw,300px);max-width:none}
-  .hero-grid{grid-template-columns:1fr;margin-top:-90px;gap:26px}
+  .hero-photo{position:relative;left:auto;transform:none;margin:0 auto;height:auto;width:min(66vw,290px);max-width:none}
+  .giant{font-size:21vw;top:104px}
+  .hero-grid{grid-template-columns:1fr;margin-top:-70px;gap:24px}
+  .hero-l{gap:12px}
+  .cta .btn{flex:1 1 auto;justify-content:center}
+  .btn.resume{align-self:stretch;justify-content:center}
   .hero-r{grid-column:auto;flex-direction:row;flex-wrap:wrap;gap:28px}
   .scroll-cue{display:none}
 }
@@ -338,6 +345,7 @@ footer .brand svg{width:26px}
           <a class="btn primary" href="#work"><span data-i="seeWork">See the work</span> <span class="ar">→</span></a>
           <a class="btn ghost" href="https://vimeo.com/mustafaaswany" target="_blank" rel="noopener"><span data-i="vimeo">Watch on Vimeo</span> <span class="ar">↗</span></a>
         </div>
+        <a class="btn resume rv-up" href="https://drive.google.com/uc?export=download&amp;id=1bAHAPv6e_vWSqQGU9kMeC7TXg8zTAj6i" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg><span data-i="resume">Download Resume</span></a>
       </div>
       <div class="hero-r">
         <div class="stat rv-up"><b><span class="num" data-to="10">10</span><em>+</em></b><span data-i="s1">Years designing &amp; animating</span></div>
@@ -519,9 +527,9 @@ const LINKS = [
   {k:"LinkedIn", ka:"لينكدإن", v:"linkedin.com/in/mustafaaswany", href:"https://www.linkedin.com/in/mustafaaswany/"}
 ];
 const T = {
-  en:{view:"View",nWork:"Work",nClients:"Clients",nProcess:"Process",nJourney:"Journey",nContact:"Contact",talk:"Let's talk",hello:"Hello, I'm",first:"Mustafa",last:"Alaswany.",role:"Multimedia designer",role2:"Graphic · Motion · Video",bio:"I design brands and make them move: motion graphics, video and identities for healthcare, tech and food brands across Egypt and the Gulf, since 2016.",seeWork:"See the work",vimeo:"Watch on Vimeo",s1:"Years designing & animating",s2:"Brands, from Pfizer to Udacity",s3:"Videos & motion pieces published",scroll:"Scroll",e1:"Selected work · 2019 — 2026",w1:"Work that",w2:"moves.",wP:"Motion graphics, video and identity work. Videos open on Vimeo, design projects on Behance.",allV:"All 37 videos on Vimeo",allB:"Design projects on Behance",e2:"Clients & brands",c1:"Part of the",c2:"bigger picture.",e3:"How I work",p1:"From brief",p2:"to final",p3:"frame.",pP:"Every piece goes through the same five cuts. It keeps the story clear and the deadline safe.",q:"“Design is how it looks. Motion is how it feels. I care about both.”",t1:"The brief",d1:"Understand the message, the audience, and where the piece will play: feed, stage screen or inbox.",t2:"Script & storyboard",d2:"Lock the story and timing before the first keyframe, so revisions stay small.",t3:"Styleframes",d3:"Design key frames in the brand's type, colour and tone, and agree on the look.",t4:"Animate & edit",d4:"Build the motion in After Effects, cut to voiceover and music in Premiere, refine the rhythm.",t5:"Sound & delivery",d5:"Clean the audio, grade, and export every size the platforms need.",e4:"The journey",j1:"Keep moving.",j2:"Keep making.",jP:"Ten years across agencies, pharma events, ed-tech and e-commerce.",eduL:"Education",edu1:"Bachelor of Management Information Systems",crsL:"Course",edu2:"Motion graphics, Motion Camp",schL:"Scholarship",edu3:"Udacity Developer Challenge: front-end & Android",e5:"Toolkit",k1:"Tools of",k2:"the trade.",e6:"Your next story",b1:"Let's start",b2:"a new story!",cP:"Have a launch, an event or a brand that needs to move? Send me the brief and I'll get back to you within a day.",city:"Cairo, Egypt",top:"Back to top ↑",
+  en:{view:"View",nWork:"Work",nClients:"Clients",nProcess:"Process",nJourney:"Journey",nContact:"Contact",talk:"Let's talk",hello:"Hello, I'm",first:"Mustafa",last:"Alaswany.",role:"Multimedia designer",role2:"Graphic · Motion · Video",bio:"I design brands and make them move: motion graphics, video and identities for healthcare, tech and food brands across Egypt and the Gulf, since 2016.",seeWork:"See the work",resume:"Download Resume",vimeo:"Watch on Vimeo",s1:"Years designing & animating",s2:"Brands, from Pfizer to Udacity",s3:"Videos & motion pieces published",scroll:"Scroll",e1:"Selected work · 2019 — 2026",w1:"Work that",w2:"moves.",wP:"Motion graphics, video and identity work. Videos open on Vimeo, design projects on Behance.",allV:"All 37 videos on Vimeo",allB:"Design projects on Behance",e2:"Clients & brands",c1:"Part of the",c2:"bigger picture.",e3:"How I work",p1:"From brief",p2:"to final",p3:"frame.",pP:"Every piece goes through the same five cuts. It keeps the story clear and the deadline safe.",q:"“Design is how it looks. Motion is how it feels. I care about both.”",t1:"The brief",d1:"Understand the message, the audience, and where the piece will play: feed, stage screen or inbox.",t2:"Script & storyboard",d2:"Lock the story and timing before the first keyframe, so revisions stay small.",t3:"Styleframes",d3:"Design key frames in the brand's type, colour and tone, and agree on the look.",t4:"Animate & edit",d4:"Build the motion in After Effects, cut to voiceover and music in Premiere, refine the rhythm.",t5:"Sound & delivery",d5:"Clean the audio, grade, and export every size the platforms need.",e4:"The journey",j1:"Keep moving.",j2:"Keep making.",jP:"Ten years across agencies, pharma events, ed-tech and e-commerce.",eduL:"Education",edu1:"Bachelor of Management Information Systems",crsL:"Course",edu2:"Motion graphics, Motion Camp",schL:"Scholarship",edu3:"Udacity Developer Challenge: front-end & Android",e5:"Toolkit",k1:"Tools of",k2:"the trade.",e6:"Your next story",b1:"Let's start",b2:"a new story!",cP:"Have a launch, an event or a brand that needs to move? Send me the brief and I'll get back to you within a day.",city:"Cairo, Egypt",top:"Back to top ↑",
       cats:{all:"All",motion:"Motion",video:"Video",events:"Events",brand:"Branding",social:"Social",digital:"Digital & 3D"}, watch:"Watch", see:"View", skip:"Skip build", copy:"Copy", copied:"Copied", now:"Now", band:["Motion graphics","Video editing","Brand identity","2D animation","Social content","Logo animation","Event visuals"]},
-  ar:{view:"شاهد",nWork:"الأعمال",nClients:"العملاء",nProcess:"طريقتي",nJourney:"المسيرة",nContact:"تواصل",talk:"يلا نشتغل",hello:"أهلاً، أنا",first:"مصطفى",last:"الأسواني.",role:"مصمم ملتيميديا",role2:"جرافيك · موشن · فيديو",bio:"بصمم هويات وبحرّكها: موشن جرافيك وفيديو وهويات بصرية لبراندات في الصحة والتكنولوجيا والأكل في مصر والخليج، من 2016.",seeWork:"شوف الأعمال",vimeo:"شاهد على Vimeo",s1:"سنين في التصميم والتحريك",s2:"براند، من Pfizer لـ Udacity",s3:"فيديو وعمل موشن منشور",scroll:"انزل",e1:"أعمال مختارة · 2019 — 2026",w1:"أعمال",w2:"بتتحرك.",wP:"موشن جرافيك وفيديو وهويات بصرية. الفيديوهات بتفتح على Vimeo، والتصميمات على Behance.",allV:"الـ 37 فيديو على Vimeo",allB:"مشاريع التصميم على Behance",e2:"العملاء والبراندات",c1:"جزء من",c2:"الصورة الأكبر.",e3:"طريقتي في الشغل",p1:"من البريف",p2:"لحد آخر",p3:"فريم.",pP:"كل شغل بيعدّي على نفس الخمس مراحل، عشان القصة تفضل واضحة والميعاد مايتأخرش.",q:"«التصميم هو شكل الحاجة، والموشن هو إحساسها. وأنا بهتم بالاتنين.»",t1:"البريف",d1:"أفهم الرسالة والجمهور، والمكان اللي هيتعرض فيه الشغل: فيد، شاشة مسرح، أو إيميل.",t2:"السكريبت والستوري بورد",d2:"أقفل القصة والتوقيت قبل أول كي فريم، عشان التعديلات تبقى بسيطة.",t3:"الستايل فريمز",d3:"أصمم الفريمات الأساسية بخطوط وألوان وروح البراند، ونتفق على الشكل.",t4:"التحريك والمونتاج",d4:"أبني الموشن على After Effects، وأقطع على الفويس أوفر والمزيكا في Premiere، وأظبط الإيقاع.",t5:"الصوت والتسليم",d5:"أنضف الصوت وأعمل الجريد، وأطلّع كل المقاسات اللي المنصات محتاجاها.",e4:"المسيرة",j1:"دايماً بتحرك.",j2:"ودايماً بعمل.",jP:"عشر سنين بين وكالات، وفعاليات أدوية، وتعليم أونلاين، وتجارة إلكترونية.",eduL:"التعليم",edu1:"بكالوريوس نظم المعلومات الإدارية",crsL:"كورس",edu2:"موشن جرافيك، Motion Camp",schL:"منحة",edu3:"منحة Udacity للمطورين: فرونت إند وأندرويد",e5:"أدواتي",k1:"أدوات",k2:"الشغل.",e6:"قصتك الجاية",b1:"يلا نبدأ",b2:"قصة جديدة!",cP:"عندك إطلاق منتج أو فعالية أو براند محتاج يتحرك؟ ابعتلي البريف وهرد عليك خلال يوم.",city:"القاهرة، مصر",top:"لفوق ↑",
+  ar:{view:"شاهد",nWork:"الأعمال",nClients:"العملاء",nProcess:"طريقتي",nJourney:"المسيرة",nContact:"تواصل",talk:"يلا نشتغل",hello:"أهلاً، أنا",first:"مصطفى",last:"الأسواني.",role:"مصمم ملتيميديا",role2:"جرافيك · موشن · فيديو",bio:"بصمم هويات وبحرّكها: موشن جرافيك وفيديو وهويات بصرية لبراندات في الصحة والتكنولوجيا والأكل في مصر والخليج، من 2016.",seeWork:"شوف الأعمال",resume:"حمّل السي في",vimeo:"شاهد على Vimeo",s1:"سنين في التصميم والتحريك",s2:"براند، من Pfizer لـ Udacity",s3:"فيديو وعمل موشن منشور",scroll:"انزل",e1:"أعمال مختارة · 2019 — 2026",w1:"أعمال",w2:"بتتحرك.",wP:"موشن جرافيك وفيديو وهويات بصرية. الفيديوهات بتفتح على Vimeo، والتصميمات على Behance.",allV:"الـ 37 فيديو على Vimeo",allB:"مشاريع التصميم على Behance",e2:"العملاء والبراندات",c1:"جزء من",c2:"الصورة الأكبر.",e3:"طريقتي في الشغل",p1:"من البريف",p2:"لحد آخر",p3:"فريم.",pP:"كل شغل بيعدّي على نفس الخمس مراحل، عشان القصة تفضل واضحة والميعاد مايتأخرش.",q:"«التصميم هو شكل الحاجة، والموشن هو إحساسها. وأنا بهتم بالاتنين.»",t1:"البريف",d1:"أفهم الرسالة والجمهور، والمكان اللي هيتعرض فيه الشغل: فيد، شاشة مسرح، أو إيميل.",t2:"السكريبت والستوري بورد",d2:"أقفل القصة والتوقيت قبل أول كي فريم، عشان التعديلات تبقى بسيطة.",t3:"الستايل فريمز",d3:"أصمم الفريمات الأساسية بخطوط وألوان وروح البراند، ونتفق على الشكل.",t4:"التحريك والمونتاج",d4:"أبني الموشن على After Effects، وأقطع على الفويس أوفر والمزيكا في Premiere، وأظبط الإيقاع.",t5:"الصوت والتسليم",d5:"أنضف الصوت وأعمل الجريد، وأطلّع كل المقاسات اللي المنصات محتاجاها.",e4:"المسيرة",j1:"دايماً بتحرك.",j2:"ودايماً بعمل.",jP:"عشر سنين بين وكالات، وفعاليات أدوية، وتعليم أونلاين، وتجارة إلكترونية.",eduL:"التعليم",edu1:"بكالوريوس نظم المعلومات الإدارية",crsL:"كورس",edu2:"موشن جرافيك، Motion Camp",schL:"منحة",edu3:"منحة Udacity للمطورين: فرونت إند وأندرويد",e5:"أدواتي",k1:"أدوات",k2:"الشغل.",e6:"قصتك الجاية",b1:"يلا نبدأ",b2:"قصة جديدة!",cP:"عندك إطلاق منتج أو فعالية أو براند محتاج يتحرك؟ ابعتلي البريف وهرد عليك خلال يوم.",city:"القاهرة، مصر",top:"لفوق ↑",
       cats:{all:"الكل",motion:"موشن",video:"فيديو",events:"فعاليات",brand:"هوية",social:"سوشيال",digital:"ديجيتال و3D"}, watch:"شاهد", see:"افتح", skip:"تخطي البناء", copy:"نسخ", copied:"اتنسخ", now:"حالياً", band:["موشن جرافيك","مونتاج فيديو","هوية بصرية","أنيميشن 2D","محتوى سوشيال","تحريك شعارات","تصميم فعاليات"]}
 };
 
@@ -529,6 +537,7 @@ const T = {
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const SMALL = matchMedia("(max-width: 760px), (hover: none)").matches;
 let LANG = "en"; let currentCat = "all";
 
 function render(){
@@ -731,8 +740,8 @@ function run(a, task){
 function setupBuild(rebuild){
   const targets = [...document.querySelectorAll(BUILD_SEL)];
   if (rebuild) { targets.forEach(el => { el.dataset.built = "1"; gsap.set(el, {autoAlpha:1}); }); return; }
-  if (!B.on || RM) {           // plain, quick fade-ins instead of agents
-    targets.forEach(el => { gsap.set(el, {autoAlpha:0}); ScrollTrigger.create({trigger:el, start:"top 92%", once:true, onEnter(){ B.done--; reveal(el); }}); });
+  if (!B.on || RM || SMALL) {  // phones and reduced motion: quick fade-ins, no agents
+    targets.forEach(el => { gsap.set(el, {autoAlpha:0}); ScrollTrigger.create({trigger:el, start:"top 96%", once:true, onEnter(){ B.done--; reveal(el); }}); });
     return;
   }
   makeAgents();
@@ -740,7 +749,7 @@ function setupBuild(rebuild){
   $("#bbar").classList.remove("gone");
   targets.forEach(el => { gsap.set(el, {autoAlpha:0}); ScrollTrigger.create({trigger:el, start:"top 88%", once:true, onEnter(){ enqueue({el}); }}); });
 }
-function heroTrace(){ if (!B.on || RM || !B.layer) return; ["#giant","#heroPhoto","#heroName",".hero-r"].forEach(s => { const el = $(s); if (el) enqueue({el, trace:true}); }); }
+function heroTrace(){ if (!B.on || RM || SMALL || !B.layer) return; ["#giant","#heroPhoto","#heroName",".hero-r"].forEach(s => { const el = $(s); if (el) enqueue({el, trace:true}); }); }
 
 $("#bSkip").addEventListener("click", () => {
   B.on = false; try { localStorage.setItem("aswany-build","off"); } catch(_) {}
