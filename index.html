@@ -14,21 +14,24 @@
 <meta name="description" content="Mustafa Alaswany — multimedia designer: motion graphics, video and brand identity. Cairo, Egypt.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Alexandria:wght@400;600;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<link rel="stylesheet" id="gfonts" href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Alexandria:wght@400;600;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
 <style>
 /* Layout: an edit-suite reel — hero cut-out over a giant red word, a slanted marquee, an asymmetric work wall, then process, journey and an end card. One accent (brand red), one moving element at a time. */
 :root{
-  --ink:#0d0b0b; --ink-2:#141110; --panel:#191514; --line:#2c2523;
+  --ink:#0d0b0b; --panel:#191514; --line:#2c2523;
   --fg:#f5efed; --muted:#a3958f; --dim:#5e5350;
-  --brand:#9e3e39; --hot:#d9544a; --glow:rgba(217,84,74,.16);
-  --display:"Anton","Impact","Arial Narrow",sans-serif;
-  --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --brand:#9e3e39; --hot:#d9544a; --glow:color-mix(in srgb,var(--hot) 16%,transparent);
+  --f-display:"Anton"; --f-body:"Manrope"; --f-mono:"JetBrains Mono"; --f-ar-display:"Alexandria"; --f-ar-body:"IBM Plex Sans Arabic";
+  --display:var(--f-display),"Impact","Arial Narrow",sans-serif;
+  --display-en:var(--f-display),"Impact","Arial Narrow",sans-serif;
+  --body:var(--f-body),system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:var(--f-mono),ui-monospace,Menlo,monospace;
+  --r:4px; --hs:1;
   --ease:cubic-bezier(.22,.8,.2,1);
   --maxw:1280px; --gut:max(16px,env(safe-area-inset-left,0px)); --gut-r:max(16px,env(safe-area-inset-right,0px));
   color-scheme:dark;
 }
-html[lang="ar"]{ --display:"Alexandria","Anton",sans-serif; --body:"IBM Plex Sans Arabic","Manrope",system-ui,sans-serif; }
+html[lang="ar"]{ --display:var(--f-ar-display),var(--f-display),sans-serif; --body:var(--f-ar-body),var(--f-body),system-ui,sans-serif; }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;overflow-x:clip}
 html.lenis,html.lenis body{height:auto}
@@ -68,10 +71,10 @@ p{margin:0}
 
 /* nav */
 .nav{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:60;transition:transform .5s var(--ease),background .4s}
-.nav.scrolled{background:rgba(13,11,11,.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav.scrolled{background:color-mix(in srgb,var(--ink) 80%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .nav.hide{transform:translateY(-110%)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;height:68px}
-.brand{display:flex;align-items:center;gap:11px;font-family:"Anton",Impact,sans-serif;font-size:20px;letter-spacing:.06em}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--display-en);font-size:20px;letter-spacing:.06em}
 .brand svg{width:34px;height:auto}
 .brand path{fill:var(--hot)}
 .nav ul{display:flex;gap:30px;list-style:none;margin:0;padding:0;font-size:14px;font-weight:500}
@@ -94,18 +97,18 @@ p{margin:0}
 .hero{position:relative;min-height:min(100svh,980px);display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;padding-top:90px}
 .hero::after{content:"";position:absolute;inset:auto 0 0 0;height:30%;background:linear-gradient(transparent,var(--ink));pointer-events:none;z-index:3}
 .giant{position:absolute;left:0;right:0;top:clamp(110px,15vh,170px);z-index:0;white-space:nowrap;pointer-events:none;user-select:none;text-align:center;
- font-family:"Anton",Impact,sans-serif;font-size:clamp(110px,24vw,380px);line-height:.82;letter-spacing:-.01em;
- background:linear-gradient(180deg,var(--hot) 0%,var(--brand) 50%,rgba(158,62,57,.08) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.giant-ar{display:none;font-family:"Alexandria",sans-serif;font-weight:900;font-size:clamp(110px,22vw,340px);line-height:1}
+ font-family:var(--display-en);font-size:clamp(110px,24vw,380px);line-height:.82;letter-spacing:-.01em;
+ background:linear-gradient(180deg,var(--hot) 0%,var(--brand) 50%,color-mix(in srgb,var(--brand) 8%,transparent) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.giant-ar{display:none;font-family:var(--f-ar-display),sans-serif;font-weight:900;font-size:clamp(110px,22vw,340px);line-height:1}
 html[lang="ar"] .giant-en{display:none} html[lang="ar"] .giant-ar{display:inline}
 .hero-photo{position:absolute;left:50%;bottom:0;transform:translateX(-50%);z-index:2;height:min(86%,860px);aspect-ratio:445/1000;max-width:70vw;pointer-events:none}
 .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:top;-webkit-mask-image:linear-gradient(#000 72%,transparent 98%);mask-image:linear-gradient(#000 72%,transparent 98%);filter:drop-shadow(0 30px 60px rgba(0,0,0,.6))}
-.hero-photo::before{content:"";position:absolute;left:50%;top:18%;width:150%;aspect-ratio:1;transform:translateX(-50%);background:radial-gradient(circle,rgba(217,84,74,.28),transparent 62%);z-index:-1}
+.hero-photo::before{content:"";position:absolute;left:50%;top:18%;width:150%;aspect-ratio:1;transform:translateX(-50%);background:radial-gradient(circle,color-mix(in srgb,var(--hot) 28%,transparent),transparent 62%);z-index:-1}
 .hero-grid{position:relative;z-index:4;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr) minmax(0,.5fr);gap:24px;align-items:end;padding-bottom:clamp(30px,5vh,56px)}
 .hero-l{display:flex;flex-direction:column;gap:14px;min-width:0}
 .hello{font-size:clamp(18px,1.8vw,24px);font-weight:500;font-style:italic;color:var(--fg)}
 html[lang="ar"] .hello{font-style:normal}
-.name{font-size:clamp(54px,7.4vw,112px);white-space:nowrap;text-shadow:0 8px 50px rgba(0,0,0,.7)}
+.name{font-size:calc(clamp(54px,7.4vw,112px) * var(--hs));white-space:nowrap;text-shadow:0 8px 50px rgba(0,0,0,.7)}
 .role{font-family:var(--display);font-size:clamp(20px,2.2vw,30px);color:var(--hot);line-height:1.05;text-transform:uppercase}
 .role2{font-family:var(--mono);font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--fg);margin-top:-6px}
 html[lang="ar"] .role2{font-family:var(--body);letter-spacing:0;font-size:16px}
@@ -114,7 +117,7 @@ html[lang="ar"] .role2{font-family:var(--body);letter-spacing:0;font-size:16px}
 .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;font-weight:700;font-size:14px;border-radius:999px;transition:background .3s,border-color .3s,color .3s}
 .btn.primary{background:var(--fg);color:var(--ink)}
 .btn.primary:hover{background:var(--hot);color:#fff}
-.btn.ghost{border:1px solid var(--line);background:rgba(13,11,11,.4)}
+.btn.ghost{border:1px solid var(--line);background:color-mix(in srgb,var(--ink) 40%,transparent)}
 .btn.ghost:hover{border-color:var(--fg)}
 .btn.resume{align-self:flex-start;background:var(--brand);color:#fff;padding:13px 20px}
 .btn.resume:hover{background:var(--hot)}
@@ -124,7 +127,7 @@ html[lang="ar"] .role2{font-family:var(--body);letter-spacing:0;font-size:16px}
 html[dir="rtl"] .btn .ar{transform:scaleX(-1)}
 html[dir="rtl"] .btn:hover .ar{transform:scaleX(-1) translateX(4px)}
 .hero-r{grid-column:3;display:flex;flex-direction:column;gap:22px}
-.stat b{display:block;font-family:"Anton",Impact,sans-serif;font-weight:400;font-size:clamp(40px,4vw,56px);line-height:1;font-variant-numeric:tabular-nums}
+.stat b{display:block;font-family:var(--display-en);font-weight:400;font-size:clamp(40px,4vw,56px);line-height:1;font-variant-numeric:tabular-nums}
 .stat b em{font-style:normal;color:var(--hot)}
 .stat > span{font-size:13px;color:var(--muted);display:block;margin-top:4px;line-height:1.35}
 .scroll-cue{position:absolute;z-index:4;bottom:22px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px}
@@ -154,7 +157,7 @@ html[dir="rtl"] .band{transform:rotate(2deg)}
 section{position:relative;padding-block:clamp(80px,11vw,150px)}
 .eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
 .eyebrow::before{content:"";width:28px;height:1px;background:var(--hot)}
-.h2{font-size:clamp(46px,7.4vw,108px)}
+.h2{font-size:calc(clamp(46px,7.4vw,108px) * var(--hs))}
 .sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:24px;margin-bottom:clamp(30px,4vw,50px)}
 .sec-head p{color:var(--muted);max-width:40ch}
 
@@ -169,13 +172,13 @@ section{position:relative;padding-block:clamp(80px,11vw,150px)}
 .card[hidden]{display:none!important}
 @media (max-width:980px){.card,.card.w8,.card.w6,.card.w4{grid-column:span 6}}
 @media (max-width:620px){.card,.card.w8,.card.w6,.card.w4{grid-column:1/-1}}
-.frame{position:relative;overflow:hidden;background:var(--panel);aspect-ratio:16/10;max-width:100%;border-radius:4px}
+.frame{position:relative;overflow:hidden;background:var(--panel);aspect-ratio:16/10;max-width:100%;border-radius:var(--r)}
 .frame img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease),filter .6s}
 .card:hover .frame img{transform:scale(1.06)}
-.frame::after{content:"";position:absolute;inset:0;border:1px solid rgba(255,255,255,.06);border-radius:4px;transition:border-color .5s;pointer-events:none}
+.frame::after{content:"";position:absolute;inset:0;border:1px solid rgba(255,255,255,.06);border-radius:var(--r);transition:border-color .5s;pointer-events:none}
 .card:hover .frame::after{border-color:var(--hot)}
 .badge{position:absolute;top:12px;inset-inline-start:12px;z-index:2;display:flex;gap:6px}
-.badge span{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:rgba(13,11,11,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:5px 9px;border-radius:999px}
+.badge span{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:color-mix(in srgb,var(--ink) 78%,transparent);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:5px 9px;border-radius:999px}
 html[lang="ar"] .badge span{font-family:var(--body);letter-spacing:0;font-size:11px}
 .badge .play{background:var(--brand);display:grid;place-items:center;width:24px;height:24px;padding:0}
 .badge .play::before{content:"";width:0;height:0;border-left:7px solid #fff;border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;margin-left:2px}
@@ -193,7 +196,7 @@ html[dir="rtl"] .go{transform:scaleX(-1)} html[dir="rtl"] .card:hover .go{transf
 .clients .wrap{margin-bottom:34px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:end}
 .rows{display:grid;gap:10px;direction:ltr}
 .row{display:flex;width:max-content}
-.row span{font-family:"Anton",Impact,sans-serif;font-size:clamp(40px,6.4vw,92px);text-transform:uppercase;line-height:1.05;padding-inline:clamp(18px,2.4vw,34px);color:transparent;-webkit-text-stroke:1px #4a3f3c;transition:color .4s,-webkit-text-stroke-color .4s;white-space:nowrap}
+.row span{font-family:var(--display);font-size:clamp(40px,6.4vw,92px);text-transform:uppercase;line-height:1.05;padding-inline:clamp(18px,2.4vw,34px);color:transparent;-webkit-text-stroke:1px #4a3f3c;transition:color .4s,-webkit-text-stroke-color .4s;white-space:nowrap}
 .row span:hover{color:var(--fg);-webkit-text-stroke-color:var(--fg)}
 .row span.r{color:var(--brand);-webkit-text-stroke-color:var(--brand)}
 
@@ -203,9 +206,9 @@ html[dir="rtl"] .go{transform:scaleX(-1)} html[dir="rtl"] .card:hover .go{transf
 .proc-l{position:sticky;top:110px;align-self:start}
 @media (max-width:900px){.proc-l{position:static}}
 .proc-l p{color:var(--muted);max-width:44ch;margin-top:22px}
-.quote{margin-top:34px;background:var(--brand);padding:26px 26px 22px;border-radius:4px;max-width:420px;position:relative;overflow:hidden}
+.quote{margin-top:34px;background:var(--brand);padding:26px 26px 22px;border-radius:var(--r);max-width:420px;position:relative;overflow:hidden}
 .quote p{color:#fff;font-size:20px;line-height:1.4;font-weight:500;margin:0}
-.quote .sig{display:block;margin-top:16px;font-family:"Anton",Impact,sans-serif;letter-spacing:.06em;color:rgba(255,255,255,.75)}
+.quote .sig{display:block;margin-top:16px;font-family:var(--display-en);letter-spacing:.06em;color:rgba(255,255,255,.75)}
 .quote svg{position:absolute;inset-inline-end:-24px;bottom:-30px;width:150px;opacity:.12}
 .quote svg path{fill:#fff}
 .steps{list-style:none;margin:0;padding:0;position:relative}
@@ -233,7 +236,7 @@ html[dir="rtl"] .job .when{text-align:right}
 @media (max-width:760px){.job{grid-template-columns:1fr 20px;gap:4px 12px}.job .when{grid-column:1/-1}.job .dot{grid-row:2;grid-column:2}}
 .edu{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:44px}
 @media (max-width:760px){.edu{grid-template-columns:1fr}}
-.edu div{background:var(--panel);border-radius:4px;padding:20px 22px}
+.edu div{background:var(--panel);border-radius:var(--r);padding:20px 22px}
 .edu b{display:block;font-weight:700;margin-top:6px}
 .edu span.mono{display:block}
 
@@ -241,7 +244,7 @@ html[dir="rtl"] .job .when{text-align:right}
 .skills{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(30px,5vw,70px);align-items:start}
 @media (max-width:900px){.skills{grid-template-columns:1fr}}
 .apps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin-top:26px;direction:ltr}
-.app{aspect-ratio:1;border-radius:14px;display:grid;place-items:center;font-weight:700;font-size:clamp(18px,2vw,26px);border:2px solid currentColor;background:var(--panel);transition:transform .5s var(--ease)}
+.app{aspect-ratio:1;border-radius:calc(var(--r)*3 + 2px);display:grid;place-items:center;font-weight:700;font-size:clamp(18px,2vw,26px);border:2px solid currentColor;background:var(--panel);transition:transform .5s var(--ease)}
 .app:hover{transform:translateY(-6px) rotate(-4deg)}
 .chips{display:flex;flex-wrap:wrap;gap:10px}
 .chips span{font-size:14px;padding:10px 16px;border:1px solid var(--line);border-radius:999px;transition:.3s}
@@ -249,8 +252,8 @@ html[dir="rtl"] .job .when{text-align:right}
 
 /* contact */
 .contact{padding-bottom:clamp(60px,8vw,110px)}
-.big{font-size:clamp(64px,13vw,210px);line-height:.86}
-html[lang="ar"] .big{font-size:clamp(52px,10vw,160px);line-height:1.1}
+.big{font-size:calc(clamp(64px,13vw,210px) * var(--hs));line-height:.86}
+html[lang="ar"] .big{font-size:calc(clamp(52px,10vw,160px) * var(--hs));line-height:1.1}
 .c-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(30px,5vw,80px);margin-top:clamp(40px,5vw,70px);align-items:end}
 @media (max-width:900px){.c-grid{grid-template-columns:1fr}}
 .c-grid > p{color:var(--muted);max-width:40ch;font-size:17px}
@@ -271,7 +274,7 @@ footer .brand svg{width:26px}
 .agent{position:absolute;left:0;top:0;will-change:transform;visibility:hidden}
 .agent svg{width:17px;height:21px;display:block;filter:drop-shadow(0 3px 6px rgba(0,0,0,.55))}
 .agent path{fill:var(--c);stroke:#fff;stroke-width:1.3;stroke-linejoin:round}
-.agent span{position:absolute;left:15px;top:17px;background:var(--c);color:#111;font:700 10.5px/1 "Manrope",sans-serif;letter-spacing:.02em;padding:4px 8px;border-radius:999px;white-space:nowrap}
+.agent span{position:absolute;left:15px;top:17px;background:var(--c);color:#111;font:700 10.5px/1 system-ui,sans-serif;letter-spacing:.02em;padding:4px 8px;border-radius:999px;white-space:nowrap}
 .sel{position:absolute;left:0;top:0;border:1px solid #5b9dff;background:rgba(91,157,255,.05);visibility:hidden}
 .sel i{position:absolute;width:7px;height:7px;background:#fff;border:1px solid #5b9dff}
 .sel i:nth-child(1){left:-4px;top:-4px}.sel i:nth-child(2){right:-4px;top:-4px}.sel i:nth-child(3){left:-4px;bottom:-4px}.sel i:nth-child(4){right:-4px;bottom:-4px}
@@ -287,6 +290,12 @@ footer .brand svg{width:26px}
 @media (max-width:760px){.agent svg{width:14px;height:17px}.agent span{left:12px;top:14px;font-size:9.5px;padding:3px 6px}.sel b{font-size:9px}}
 @media (max-width:480px){.bbar .prog{display:none}.bbar{font-size:10px;gap:8px}}
 
+[data-sec][hidden]{display:none!important}
+.no-grain .grain{display:none}
+html.preview [data-sec]{transition:outline-color .2s}
+html.preview [data-sec]:hover{outline:2px dashed #5b9dff;outline-offset:-6px;cursor:pointer}
+html.preview .card:hover{outline:2px solid #5b9dff;outline-offset:4px}
+html.preview .bbar,html.preview .loader,html.preview .follow{display:none!important}
 @media (prefers-reduced-motion:reduce){
   .scroll-cue i{animation:none}
   .frame img,.card:hover .frame img{transition:none;transform:none}
@@ -297,7 +306,7 @@ footer .brand svg{width:26px}
 
 
 <div class="grain" aria-hidden="true"></div>
-<div class="follow" id="follow" aria-hidden="true" data-i="view">View</div>
+<div class="follow" id="follow" aria-hidden="true">View</div>
 
 <div class="loader" id="loader" aria-hidden="true">
   <div class="loader-in">
@@ -311,9 +320,9 @@ footer .brand svg{width:26px}
   <div class="wrap">
     <a class="brand" href="#top" aria-label="Mustafa Alaswany">
       <svg viewBox="20 20 614 464" aria-hidden="true"><path d="M28.3 474 278.5 29.9 349.2 155.3 169.7 474ZM95.8 434 277.1 112.2 302.8 157.8 147.2 434Z" fill-rule="evenodd"/><path d="M625.7 474 375.5 29.9 304.8 155.3 484.3 474ZM558.2 434 376.9 112.2 351.2 157.8 506.8 434Z" fill-rule="evenodd"/><path d="M221.3 474 327 286.4 432.7 474ZM288.8 434 327 366.3 365.2 434Z" fill-rule="evenodd"/></svg>
-      <span class="bname">MUSTAFA ALASWANY</span>
+      <span class="bname" data-i="brand">MUSTAFA ALASWANY</span>
     </a>
-    <ul>
+    <ul id="navLinks">
       <li><a href="#work" data-i="nWork">Work</a></li>
       <li><a href="#clients" data-i="nClients">Clients</a></li>
       <li><a href="#process" data-i="nProcess">Process</a></li>
@@ -331,9 +340,9 @@ footer .brand svg{width:26px}
 </header>
 
 <main id="top">
-  <div class="hero" id="hero">
-    <div class="giant" id="giant" aria-hidden="true"><span class="giant-en">PORTFOLIO</span><span class="giant-ar">أعمالي</span></div>
-    <div class="hero-photo" id="heroPhoto"><img src="img/photo-new.webp" alt="Mustafa Alaswany" width="445" height="1000"></div>
+  <div class="hero" id="hero" data-sec="hero">
+    <div class="giant" id="giant" aria-hidden="true"><span class="giant-en" id="giantEn">PORTFOLIO</span><span class="giant-ar" id="giantAr">أعمالي</span></div>
+    <div class="hero-photo" id="heroPhoto"><img id="heroImg" src="img/photo-new.webp" alt="" width="445" height="1000"></div>
     <div class="wrap hero-grid">
       <div class="hero-l">
         <span class="hello rv-up" data-i="hello">Hello, I'm</span>
@@ -343,22 +352,18 @@ footer .brand svg{width:26px}
         <p class="bio rv-up" data-i="bio">I design brands and make them move: motion graphics, video and identities for healthcare, tech and food brands across Egypt and the Gulf, since 2016.</p>
         <div class="cta rv-up">
           <a class="btn primary" href="#work"><span data-i="seeWork">See the work</span> <span class="ar">→</span></a>
-          <a class="btn ghost" href="https://vimeo.com/mustafaaswany" target="_blank" rel="noopener"><span data-i="vimeo">Watch on Vimeo</span> <span class="ar">↗</span></a>
+          <a class="btn ghost" id="heroVimeo" href="https://vimeo.com/mustafaaswany" target="_blank" rel="noopener"><span data-i="vimeo">Watch on Vimeo</span> <span class="ar">↗</span></a>
         </div>
-        <a class="btn resume rv-up" href="https://drive.google.com/uc?export=download&amp;id=1bAHAPv6e_vWSqQGU9kMeC7TXg8zTAj6i" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg><span data-i="resume">Download Resume</span></a>
+        <a class="btn resume rv-up" id="resumeBtn" href="https://drive.google.com/uc?export=download&amp;id=1bAHAPv6e_vWSqQGU9kMeC7TXg8zTAj6i" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg><span data-i="resume">Download Resume</span></a>
       </div>
-      <div class="hero-r">
-        <div class="stat rv-up"><b><span class="num" data-to="10">10</span><em>+</em></b><span data-i="s1">Years designing &amp; animating</span></div>
-        <div class="stat rv-up"><b><span class="num" data-to="50">50</span><em>+</em></b><span data-i="s2">Brands, from Pfizer to Udacity</span></div>
-        <div class="stat rv-up"><b><span class="num" data-to="400">400</span><em>+</em></b><span data-i="s3">Videos &amp; motion pieces published</span></div>
-      </div>
+      <div class="hero-r" id="stats"></div>
     </div>
     <div class="scroll-cue" aria-hidden="true"><span class="mono" data-i="scroll">Scroll</span><i></i></div>
   </div>
 
-  <div class="band" aria-hidden="true"><div class="band-track" id="band"></div></div>
+  <div class="band" aria-hidden="true" data-sec="band"><div class="band-track" id="band"></div></div>
 
-  <section id="work">
+  <section id="work" data-sec="work">
     <div class="wrap">
       <div class="sec-head">
         <div>
@@ -370,13 +375,13 @@ footer .brand svg{width:26px}
       <div class="filters" id="filters" role="group" aria-label="Filter"></div>
       <div class="wall" id="wall"></div>
       <div class="more">
-        <a class="btn ghost" href="https://vimeo.com/mustafaaswany" target="_blank" rel="noopener"><span data-i="allV">All 37 videos on Vimeo</span> <span class="ar">↗</span></a>
-        <a class="btn ghost" href="https://www.behance.net/MustafaAswany" target="_blank" rel="noopener"><span data-i="allB">Design projects on Behance</span> <span class="ar">↗</span></a>
+        <a class="btn ghost" id="moreVimeo" href="https://vimeo.com/mustafaaswany" target="_blank" rel="noopener"><span data-i="allV">All 37 videos on Vimeo</span> <span class="ar">↗</span></a>
+        <a class="btn ghost" id="moreBehance" href="https://www.behance.net/MustafaAswany" target="_blank" rel="noopener"><span data-i="allB">Design projects on Behance</span> <span class="ar">↗</span></a>
       </div>
     </div>
   </section>
 
-  <div class="clients" id="clients">
+  <div class="clients" id="clients" data-sec="clients">
     <div class="wrap">
       <div>
         <div class="eyebrow"><span class="mono" data-i="e2">Clients &amp; brands</span></div>
@@ -389,7 +394,7 @@ footer .brand svg{width:26px}
     </div>
   </div>
 
-  <section id="process">
+  <section id="process" data-sec="process">
     <div class="wrap proc">
       <div class="proc-l">
         <div class="eyebrow"><span class="mono" data-i="e3">How I work</span></div>
@@ -398,21 +403,16 @@ footer .brand svg{width:26px}
         <div class="quote">
           <svg viewBox="20 20 614 464" aria-hidden="true"><path d="M28.3 474 278.5 29.9 349.2 155.3 169.7 474ZM95.8 434 277.1 112.2 302.8 157.8 147.2 434Z" fill-rule="evenodd"/><path d="M625.7 474 375.5 29.9 304.8 155.3 484.3 474ZM558.2 434 376.9 112.2 351.2 157.8 506.8 434Z" fill-rule="evenodd"/><path d="M221.3 474 327 286.4 432.7 474ZM288.8 434 327 366.3 365.2 434Z" fill-rule="evenodd"/></svg>
           <p data-i="q">“Design is how it looks. Motion is how it feels. I care about both.”</p>
-          <span class="sig">— MUSTAFA ALASWANY</span>
+          <span class="sig" data-i="sig">— MUSTAFA ALASWANY</span>
         </div>
       </div>
       <ol class="steps" id="steps">
         <span class="rail" aria-hidden="true"><i id="railFill"></i></span>
-        <li><span class="n">01</span><div><h3 data-i="t1">The brief</h3><p data-i="d1">Understand the message, the audience, and where the piece will play: feed, stage screen or inbox.</p></div></li>
-        <li><span class="n">02</span><div><h3 data-i="t2">Script &amp; storyboard</h3><p data-i="d2">Lock the story and timing before the first keyframe, so revisions stay small.</p></div></li>
-        <li><span class="n">03</span><div><h3 data-i="t3">Styleframes</h3><p data-i="d3">Design key frames in the brand's type, colour and tone, and agree on the look.</p></div></li>
-        <li><span class="n">04</span><div><h3 data-i="t4">Animate &amp; edit</h3><p data-i="d4">Build the motion in After Effects, cut to voiceover and music in Premiere, refine the rhythm.</p></div></li>
-        <li><span class="n">05</span><div><h3 data-i="t5">Sound &amp; delivery</h3><p data-i="d5">Clean the audio, grade, and export every size the platforms need.</p></div></li>
       </ol>
     </div>
   </section>
 
-  <section id="journey" style="padding-top:0">
+  <section id="journey" data-sec="journey" style="padding-top:0">
     <div class="wrap">
       <div class="sec-head">
         <div>
@@ -422,33 +422,22 @@ footer .brand svg{width:26px}
         <p data-i="jP">Ten years across agencies, pharma events, ed-tech and e-commerce.</p>
       </div>
       <div class="jobs" id="jobs"></div>
-      <div class="edu">
-        <div><span class="mono" data-i="eduL">Education</span><b data-i="edu1">Bachelor of Management Information Systems</b><span class="mono">EGI Institute · 2017 — 2021</span></div>
-        <div><span class="mono" data-i="crsL">Course</span><b data-i="edu2">Motion graphics, Motion Camp</b><span class="mono">2020</span></div>
-        <div><span class="mono" data-i="schL">Scholarship</span><b data-i="edu3">Udacity Developer Challenge: front-end &amp; Android</b><span class="mono">2017 — 2018</span></div>
-      </div>
+      <div class="edu" id="edu"></div>
     </div>
   </section>
 
-  <section style="padding-top:0">
+  <section id="skills" data-sec="skills" style="padding-top:0">
     <div class="wrap skills">
       <div>
         <div class="eyebrow"><span class="mono" data-i="e5">Toolkit</span></div>
         <h2 class="h2"><span class="line"><span data-i="k1">Tools of</span></span><span class="line"><span class="hot" data-i="k2">the trade.</span></span></h2>
-        <div class="apps">
-          <span class="app" style="color:#31a8ff" title="Photoshop">Ps</span>
-          <span class="app" style="color:#ff9a00" title="Illustrator">Ai</span>
-          <span class="app" style="color:#ff3366" title="InDesign">Id</span>
-          <span class="app" style="color:#9999ff" title="After Effects">Ae</span>
-          <span class="app" style="color:#9999ff" title="Premiere Pro">Pr</span>
-          <span class="app" style="color:#00e4bb" title="Audition">Au</span>
-        </div>
+        <div class="apps" id="apps"></div>
       </div>
       <div class="chips" id="chips"></div>
     </div>
   </section>
 
-  <section class="contact" id="contact">
+  <section class="contact" id="contact" data-sec="contact">
     <div class="wrap">
       <div class="eyebrow"><span class="mono" data-i="e6">Your next story</span></div>
       <h2 class="big"><span class="line"><span data-i="b1">Let's start</span></span><span class="line"><span class="hot" data-i="b2">a new story!</span></span></h2>
@@ -462,8 +451,8 @@ footer .brand svg{width:26px}
 
 <footer>
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="Back to top"><svg viewBox="20 20 614 464" aria-hidden="true"><path d="M28.3 474 278.5 29.9 349.2 155.3 169.7 474ZM95.8 434 277.1 112.2 302.8 157.8 147.2 434Z" fill-rule="evenodd"/><path d="M625.7 474 375.5 29.9 304.8 155.3 484.3 474ZM558.2 434 376.9 112.2 351.2 157.8 506.8 434Z" fill-rule="evenodd"/><path d="M221.3 474 327 286.4 432.7 474ZM288.8 434 327 366.3 365.2 434Z" fill-rule="evenodd"/></svg>ALASWANY</a>
-    <span class="mono">© 2026 Mustafa Alaswany · <span data-i="city">Cairo, Egypt</span></span>
+    <a class="brand" href="#top" aria-label="Back to top"><svg viewBox="20 20 614 464" aria-hidden="true"><path d="M28.3 474 278.5 29.9 349.2 155.3 169.7 474ZM95.8 434 277.1 112.2 302.8 157.8 147.2 434Z" fill-rule="evenodd"/><path d="M625.7 474 375.5 29.9 304.8 155.3 484.3 474ZM558.2 434 376.9 112.2 351.2 157.8 506.8 434Z" fill-rule="evenodd"/><path d="M221.3 474 327 286.4 432.7 474ZM288.8 434 327 366.3 365.2 434Z" fill-rule="evenodd"/></svg><span data-i="brandShort">ALASWANY</span></a>
+    <span class="mono">© <span id="yr">2026</span> <span data-i="owner">Mustafa Alaswany</span> · <span data-i="city">Cairo, Egypt</span></span>
     <a class="mono" href="#top" data-i="top">Back to top ↑</a>
   </div>
 </footer>
@@ -474,98 +463,103 @@ footer .brand svg{width:26px}
   <span class="prog" aria-hidden="true"><u id="bProg"></u></span>
   <button type="button" id="bSkip" data-i="skip">Skip build</button>
 </div>
+<script type="application/json" id="content-default">{"version":1,"theme":{"colors":{"ink":"#0d0b0b","panel":"#191514","line":"#2c2523","fg":"#f5efed","muted":"#a3958f","dim":"#5e5350","brand":"#9e3e39","hot":"#d9544a"},"fonts":{"display":{"name":"Anton","spec":"Anton"},"body":{"name":"Manrope","spec":"Manrope:wght@400;500;600;700"},"mono":{"name":"JetBrains Mono","spec":"JetBrains+Mono:wght@400;500"},"arDisplay":{"name":"Alexandria","spec":"Alexandria:wght@400;600;800;900"},"arBody":{"name":"IBM Plex Sans Arabic","spec":"IBM+Plex+Sans+Arabic:wght@400;500;600"}},"radius":4,"headingScale":1,"effects":{"loader":true,"agents":true,"grain":true,"smooth":true,"cursor":true,"marquee":true}},"sections":[{"id":"band","show":true},{"id":"work","show":true},{"id":"clients","show":true},{"id":"process","show":true},{"id":"journey","show":true},{"id":"skills","show":true},{"id":"contact","show":true}],"hero":{"photo":"img/photo-new.webp","stats":[{"n":10,"suf":"+","en":"Years designing & animating","ar":"سنين في التصميم والتحريك"},{"n":50,"suf":"+","en":"Brands, from Pfizer to Udacity","ar":"براند، من Pfizer لـ Udacity"},{"n":400,"suf":"+","en":"Videos & motion pieces published","ar":"فيديو وعمل موشن منشور"}]},"urls":{"vimeo":"https://vimeo.com/mustafaaswany","behance":"https://www.behance.net/MustafaAswany","resume":"https://drive.google.com/uc?export=download&id=1bAHAPv6e_vWSqQGU9kMeC7TXg8zTAj6i"},"text":{"en":{"view":"View","nWork":"Work","nClients":"Clients","nProcess":"Process","nJourney":"Journey","nContact":"Contact","talk":"Let's talk","hello":"Hello, I'm","first":"Mustafa","last":"Alaswany.","role":"Multimedia designer","role2":"Graphic · Motion · Video","bio":"I design brands and make them move: motion graphics, video and identities for healthcare, tech and food brands across Egypt and the Gulf, since 2016.","seeWork":"See the work","resume":"Download Resume","vimeo":"Watch on Vimeo","scroll":"Scroll","e1":"Selected work · 2019 — 2026","w1":"Work that","w2":"moves.","wP":"Motion graphics, video and identity work. Videos open on Vimeo, design projects on Behance.","allV":"All 37 videos on Vimeo","allB":"Design projects on Behance","e2":"Clients & brands","c1":"Part of the","c2":"bigger picture.","e3":"How I work","p1":"From brief","p2":"to final","p3":"frame.","pP":"Every piece goes through the same five cuts. It keeps the story clear and the deadline safe.","q":"“Design is how it looks. Motion is how it feels. I care about both.”","e4":"The journey","j1":"Keep moving.","j2":"Keep making.","jP":"Ten years across agencies, pharma events, ed-tech and e-commerce.","e5":"Toolkit","k1":"Tools of","k2":"the trade.","e6":"Your next story","b1":"Let's start","b2":"a new story!","cP":"Have a launch, an event or a brand that needs to move? Send me the brief and I'll get back to you within a day.","city":"Cairo, Egypt","top":"Back to top ↑","watch":"Watch","see":"View","skip":"Skip build","copy":"Copy","copied":"Copied","now":"Now","all":"All","giant":"PORTFOLIO","brand":"MUSTAFA ALASWANY","brandShort":"ALASWANY","sig":"— MUSTAFA ALASWANY","owner":"Mustafa Alaswany"},"ar":{"view":"شاهد","nWork":"الأعمال","nClients":"العملاء","nProcess":"طريقتي","nJourney":"المسيرة","nContact":"تواصل","talk":"يلا نشتغل","hello":"أهلاً، أنا","first":"مصطفى","last":"الأسواني.","role":"مصمم ملتيميديا","role2":"جرافيك · موشن · فيديو","bio":"بصمم هويات وبحرّكها: موشن جرافيك وفيديو وهويات بصرية لبراندات في الصحة والتكنولوجيا والأكل في مصر والخليج، من 2016.","seeWork":"شوف الأعمال","resume":"حمّل السي في","vimeo":"شاهد على Vimeo","scroll":"انزل","e1":"أعمال مختارة · 2019 — 2026","w1":"أعمال","w2":"بتتحرك.","wP":"موشن جرافيك وفيديو وهويات بصرية. الفيديوهات بتفتح على Vimeo، والتصميمات على Behance.","allV":"الـ 37 فيديو على Vimeo","allB":"مشاريع التصميم على Behance","e2":"العملاء والبراندات","c1":"جزء من","c2":"الصورة الأكبر.","e3":"طريقتي في الشغل","p1":"من البريف","p2":"لحد آخر","p3":"فريم.","pP":"كل شغل بيعدّي على نفس الخمس مراحل، عشان القصة تفضل واضحة والميعاد مايتأخرش.","q":"«التصميم هو شكل الحاجة، والموشن هو إحساسها. وأنا بهتم بالاتنين.»","e4":"المسيرة","j1":"دايماً بتحرك.","j2":"ودايماً بعمل.","jP":"عشر سنين بين وكالات، وفعاليات أدوية، وتعليم أونلاين، وتجارة إلكترونية.","e5":"أدواتي","k1":"أدوات","k2":"الشغل.","e6":"قصتك الجاية","b1":"يلا نبدأ","b2":"قصة جديدة!","cP":"عندك إطلاق منتج أو فعالية أو براند محتاج يتحرك؟ ابعتلي البريف وهرد عليك خلال يوم.","city":"القاهرة، مصر","top":"لفوق ↑","watch":"شاهد","see":"افتح","skip":"تخطي البناء","copy":"نسخ","copied":"اتنسخ","now":"حالياً","all":"الكل","giant":"أعمالي","brand":"مصطفى الأسواني","brandShort":"الأسواني","sig":"— مصطفى الأسواني","owner":"مصطفى الأسواني"}},"cats":[{"id":"motion","en":"Motion","ar":"موشن"},{"id":"video","en":"Video","ar":"فيديو"},{"id":"events","en":"Events","ar":"فعاليات"},{"id":"brand","en":"Branding","ar":"هوية"},{"id":"social","en":"Social","ar":"سوشيال"},{"id":"digital","en":"Digital & 3D","ar":"ديجيتال و3D"}],"band":[{"en":"Motion graphics","ar":"موشن جرافيك"},{"en":"Video editing","ar":"مونتاج فيديو"},{"en":"Brand identity","ar":"هوية بصرية"},{"en":"2D animation","ar":"أنيميشن 2D"},{"en":"Social content","ar":"محتوى سوشيال"},{"en":"Logo animation","ar":"تحريك شعارات"},{"en":"Event visuals","ar":"تصميم فعاليات"}],"work":[{"img":"img/v-dillx-infographic.webp","cat":"motion","size":"w8","t":"Startup Success Guide","c":"DillX","y":2024,"en":"Infographic explainer on venture-backed startups","ar":"فيديو إنفوجرافيك عن الشركات الناشئة المموّلة","url":"https://vimeo.com/979469259","video":true,"show":true},{"img":"img/v-astrazeneca.webp","cat":"motion","size":"w4","t":"Nesmet Hawa","c":"AstraZeneca","y":2024,"en":"Character-led awareness video","ar":"فيديو توعوي بشخصيات متحركة","url":"https://vimeo.com/985280937","video":true,"show":true},{"img":"img/e-mbrace.webp","cat":"events","size":"w8","t":"MBrace campaign","c":"Merck & Glucovance","y":2020,"en":"Campaign visuals, booth walls and a virtual dresser","ar":"حملة كاملة: حوائط البوث وتجربة Virtual dresser","url":"https://www.behance.net/MustafaAswany","video":false,"show":true},{"img":"img/b-bzar.webp","cat":"brand","size":"w4","t":"B'ZAR van","c":"B'ZAR","y":2025,"en":"Vehicle branding for a Saudi restaurant","ar":"هوية سيارة توصيل لمطعم سعودي","url":"https://www.behance.net/gallery/235357211","video":false,"show":true},{"img":"img/v-menarini.webp","cat":"video","size":"w6","t":"Pulse · Together we thunder","c":"Menarini","y":2024,"en":"Event opener for the cycle meeting in Istanbul","ar":"افتتاحية الاجتماع الدوري في إسطنبول","url":"https://vimeo.com/953064659","video":true,"show":true},{"img":"img/e-ryzeup.webp","cat":"events","size":"w6","t":"RyzeUp · Second wave","c":"Novo Nordisk","y":2021,"en":"Event branding and video coverage, Sofitel El Gezira","ar":"هوية الفعالية وتغطيتها بالفيديو في سوفيتيل الجزيرة","url":"https://vimeo.com/505698160","video":true,"show":true},{"img":"img/b-decoupes.webp","cat":"brand","size":"w4","t":"Découpes identity","c":"Découpes by Emy","y":2025,"en":"Logo, labels and stationery for a fashion label","ar":"شعار وبطاقات وهوية لبراند أزياء","url":"https://www.behance.net/gallery/234226531","video":false,"show":true},{"img":"img/v-netriders.webp","cat":"video","size":"w4","t":"Sec+ campaign","c":"NetRiders","y":2025,"en":"Editing and motion for a security course","ar":"مونتاج وموشن لكورس أمن سيبراني","url":"https://vimeo.com/1128915323","video":true,"show":true},{"img":"img/e-heartquiz.webp","cat":"digital","size":"w4","t":"Heart Song Quiz","c":"Eventy","y":2020,"en":"Interactive game played by doctors at pharma events","ar":"لعبة تفاعلية للدكاترة في فعاليات الأدوية","url":"https://vimeo.com/406775686/eeabc072c3","video":true,"show":true},{"img":"img/e-mycsa.webp","cat":"events","size":"w6","t":"MyCSA · The missing links","c":"Gilead","y":2020,"en":"Event identity for the Mycology Club in Saudi Arabia","ar":"هوية فعالية نادي الفطريات في السعودية","url":"https://www.behance.net/MustafaAswany","video":false,"show":true},{"img":"img/e-masterchef.webp","cat":"events","size":"w6","t":"MasterChef Diabetes","c":"AstraZeneca","y":2019,"en":"Stage, roll-ups and promo for a Kuwait event","ar":"مسرح ورول أب وبرومو لفعالية في الكويت","url":"https://vimeo.com/505787705","video":true,"show":true},{"img":"img/b-dillx-social.webp","cat":"social","size":"w4","t":"Social media designs","c":"DillX","y":2024,"en":"Bilingual posts and campaign visuals","ar":"بوستات وحملات بالعربي والإنجليزي","url":"https://www.behance.net/gallery/195620785","video":false,"show":true},{"img":"img/v-nextcare.webp","cat":"motion","size":"w4","t":"App guide","c":"Nextcare","y":2023,"en":"Animated walkthrough of the Nextcare app","ar":"شرح متحرك لتطبيق Nextcare","url":"https://vimeo.com/865548793","video":true,"show":true},{"img":"img/v-whiteboard.webp","cat":"motion","size":"w4","t":"Programming, explained","c":"Whiteboard","y":2024,"en":"Arabic whiteboard animation","ar":"وايت بورد أنيميشن بالعربي لشرح البرمجة","url":"https://vimeo.com/968180340","video":true,"show":true},{"img":"img/b-udacity3d.webp","cat":"digital","size":"w6","t":"3D room","c":"Udacity","y":2023,"en":"Isometric 3D set for course content","ar":"غرفة 3D لمحتوى الكورسات","url":"https://www.behance.net/gallery/199539611","video":false,"show":true},{"img":"img/v-windenergy.webp","cat":"motion","size":"w6","t":"Logo animation","c":"Wind Energy","y":2023,"en":"Logo reveal with a turning blade","ar":"تحريك شعار بريشة توربين","url":"https://vimeo.com/852223728","video":true,"show":true},{"img":"img/b-diva.webp","cat":"brand","size":"w4","t":"Dazzling Diva","c":"Diva","y":2021,"en":"Jewellery brand identity","ar":"هوية براند مجوهرات","url":"https://www.behance.net/gallery/113978455","video":false,"show":true},{"img":"img/v-barukas.webp","cat":"social","size":"w4","t":"Barukas reel","c":"Barukas","y":2023,"en":"Instagram & TikTok ad reel","ar":"ريل إعلاني لإنستجرام وتيك توك","url":"https://vimeo.com/738558543","video":true,"show":true},{"img":"img/v-restaurant.webp","cat":"motion","size":"w4","t":"Restaurant ad","c":"Delivery","y":2021,"en":"2D ad animation for food delivery","ar":"إعلان موشن 2D لتوصيل الأكل","url":"https://vimeo.com/507185049","video":true,"show":true}],"clients":["Merck","Novo Nordisk","Udacity","Gilead","Sanofi","Pfizer","Hikma","AbbVie","AstraZeneca","Amgen","Abbott","P&G","Menarini","Nextcare","DillX","Masar","Volaris","Neesh","PastaU","Deboned","Cadulli"],"steps":[{"en":{"t":"The brief","d":"Understand the message, the audience, and where the piece will play: feed, stage screen or inbox."},"ar":{"t":"البريف","d":"أفهم الرسالة والجمهور، والمكان اللي هيتعرض فيه الشغل: فيد، شاشة مسرح، أو إيميل."}},{"en":{"t":"Script & storyboard","d":"Lock the story and timing before the first keyframe, so revisions stay small."},"ar":{"t":"السكريبت والستوري بورد","d":"أقفل القصة والتوقيت قبل أول كي فريم، عشان التعديلات تبقى بسيطة."}},{"en":{"t":"Styleframes","d":"Design key frames in the brand's type, colour and tone, and agree on the look."},"ar":{"t":"الستايل فريمز","d":"أصمم الفريمات الأساسية بخطوط وألوان وروح البراند، ونتفق على الشكل."}},{"en":{"t":"Animate & edit","d":"Build the motion in After Effects, cut to voiceover and music in Premiere, refine the rhythm."},"ar":{"t":"التحريك والمونتاج","d":"أبني الموشن على After Effects، وأقطع على الفويس أوفر والمزيكا في Premiere، وأظبط الإيقاع."}},{"en":{"t":"Sound & delivery","d":"Clean the audio, grade, and export every size the platforms need."},"ar":{"t":"الصوت والتسليم","d":"أنضف الصوت وأعمل الجريد، وأطلّع كل المقاسات اللي المنصات محتاجاها."}}],"jobs":[{"w":"01/2026 — Now","now":true,"en":{"role":"Multimedia Specialist","co":"Acorn Strategy & Indigo agency"},"ar":{"role":"أخصائي ملتيميديا","co":"Acorn Strategy & Indigo agency"}},{"w":"12/2024 — Now","now":true,"en":{"role":"Multimedia Designer","co":"Qwarer Zahab & Cadulli"},"ar":{"role":"مصمم ملتيميديا","co":"Qwarer Zahab & Cadulli"}},{"w":"07/2024 — 12/2024","now":false,"en":{"role":"Multimedia Designer","co":"Neesh Group · Deboned & PastaU (KW & BH)"},"ar":{"role":"مصمم ملتيميديا","co":"Neesh Group · Deboned & PastaU (الكويت والبحرين)"}},{"w":"10/2023 — 07/2024","now":false,"en":{"role":"Multimedia Designer","co":"DillX"},"ar":{"role":"مصمم ملتيميديا","co":"DillX"}},{"w":"09/2022 — 07/2023","now":false,"en":{"role":"Video Designer","co":"Udacity"},"ar":{"role":"مصمم فيديو","co":"Udacity"}},{"w":"04/2022 — 10/2022","now":false,"en":{"role":"Multimedia Designer","co":"Estshara"},"ar":{"role":"مصمم ملتيميديا","co":"Estshara"}},{"w":"03/2021 — Now","now":true,"en":{"role":"Multimedia Designer","co":"Freelancer.com"},"ar":{"role":"مصمم ملتيميديا","co":"Freelancer.com"}},{"w":"07/2019 — 03/2021","now":false,"en":{"role":"Multimedia Designer","co":"Eventy LLC (Volaris)"},"ar":{"role":"مصمم ملتيميديا","co":"Eventy LLC (Volaris)"}},{"w":"2016 — 2019","now":false,"en":{"role":"Graphic & Video Designer","co":"Freelance"},"ar":{"role":"مصمم جرافيك وفيديو","co":"فريلانس"}}],"edu":[{"label":{"en":"Education","ar":"التعليم"},"title":{"en":"Bachelor of Management Information Systems","ar":"بكالوريوس نظم المعلومات الإدارية"},"meta":"EGI Institute · 2017 — 2021"},{"label":{"en":"Course","ar":"كورس"},"title":{"en":"Motion graphics, Motion Camp","ar":"موشن جرافيك، Motion Camp"},"meta":"2020"},{"label":{"en":"Scholarship","ar":"منحة"},"title":{"en":"Udacity Developer Challenge: front-end & Android","ar":"منحة Udacity للمطورين: فرونت إند وأندرويد"},"meta":"2017 — 2018"}],"apps":[{"l":"Ps","c":"#31a8ff","t":"Photoshop"},{"l":"Ai","c":"#ff9a00","t":"Illustrator"},{"l":"Id","c":"#ff3366","t":"InDesign"},{"l":"Ae","c":"#9999ff","t":"After Effects"},{"l":"Pr","c":"#9999ff","t":"Premiere Pro"},{"l":"Au","c":"#00e4bb","t":"Audition"}],"skills":[{"en":"Motion graphics","ar":"موشن جرافيك"},{"en":"2D animation","ar":"أنيميشن 2D"},{"en":"Logo animation","ar":"تحريك الشعارات"},{"en":"Video editing","ar":"مونتاج فيديو"},{"en":"Brand identity","ar":"هوية بصرية"},{"en":"Social media design","ar":"تصميم سوشيال ميديا"},{"en":"Event branding","ar":"هوية الفعاليات"},{"en":"HTML email campaigns","ar":"حملات إيميل HTML"},{"en":"Whiteboard animation","ar":"وايت بورد أنيميشن"},{"en":"AI-assisted visuals","ar":"تصميم بالذكاء الاصطناعي"},{"en":"UI/UX basics","ar":"أساسيات UI/UX"},{"en":"Drawing","ar":"رسم"}],"links":[{"k":"Email","ka":"الإيميل","v":"Mu.Aswany@gmail.com","href":"","copy":true},{"k":"WhatsApp","ka":"واتساب","v":"+20 155 745 5564","href":"https://wa.me/201557455564","copy":false},{"k":"Vimeo","ka":"Vimeo","v":"vimeo.com/mustafaaswany","href":"https://vimeo.com/mustafaaswany","copy":false},{"k":"Behance","ka":"Behance","v":"behance.net/MustafaAswany","href":"https://www.behance.net/MustafaAswany","copy":false},{"k":"LinkedIn","ka":"لينكدإن","v":"linkedin.com/in/mustafaaswany","href":"https://www.linkedin.com/in/mustafaaswany/","copy":false}]}</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 <script>
-/* =========================== CONTENT =========================== */
-const VIMEO = id => `https://vimeo.com/${id}`;
-const BEH = id => `https://www.behance.net/gallery/${id}`;
-const WORK = [
-  {img:"v-dillx-infographic", cat:"motion", size:"w8", t:"Startup Success Guide", c:"DillX", y:2024, en:"Infographic explainer on venture-backed startups", ar:"فيديو إنفوجرافيك عن الشركات الناشئة المموّلة", url:VIMEO(979469259), video:1},
-  {img:"v-astrazeneca", cat:"motion", size:"w4", t:"Nesmet Hawa", c:"AstraZeneca", y:2024, en:"Character-led awareness video", ar:"فيديو توعوي بشخصيات متحركة", url:VIMEO(985280937), video:1},
-  {img:"e-mbrace", cat:"events", size:"w8", t:"MBrace campaign", c:"Merck & Glucovance", y:2020, en:"Campaign visuals, booth walls and a virtual dresser", ar:"حملة كاملة: حوائط البوث وتجربة Virtual dresser", url:"https://www.behance.net/MustafaAswany"},
-  {img:"b-bzar", cat:"brand", size:"w4", t:"B'ZAR van", c:"B'ZAR", y:2025, en:"Vehicle branding for a Saudi restaurant", ar:"هوية سيارة توصيل لمطعم سعودي", url:BEH(235357211)},
-  {img:"v-menarini", cat:"video", size:"w6", t:"Pulse · Together we thunder", c:"Menarini", y:2024, en:"Event opener for the cycle meeting in Istanbul", ar:"افتتاحية الاجتماع الدوري في إسطنبول", url:VIMEO(953064659), video:1},
-  {img:"e-ryzeup", cat:"events", size:"w6", t:"RyzeUp · Second wave", c:"Novo Nordisk", y:2021, en:"Event branding and video coverage, Sofitel El Gezira", ar:"هوية الفعالية وتغطيتها بالفيديو في سوفيتيل الجزيرة", url:VIMEO(505698160), video:1},
-  {img:"b-decoupes", cat:"brand", size:"w4", t:"Découpes identity", c:"Découpes by Emy", y:2025, en:"Logo, labels and stationery for a fashion label", ar:"شعار وبطاقات وهوية لبراند أزياء", url:BEH(234226531)},
-  {img:"v-netriders", cat:"video", size:"w4", t:"Sec+ campaign", c:"NetRiders", y:2025, en:"Editing and motion for a security course", ar:"مونتاج وموشن لكورس أمن سيبراني", url:VIMEO(1128915323), video:1},
-  {img:"e-heartquiz", cat:"digital", size:"w4", t:"Heart Song Quiz", c:"Eventy", y:2020, en:"Interactive game played by doctors at pharma events", ar:"لعبة تفاعلية للدكاترة في فعاليات الأدوية", url:"https://vimeo.com/406775686/eeabc072c3", video:1},
-  {img:"e-mycsa", cat:"events", size:"w6", t:"MyCSA · The missing links", c:"Gilead", y:2020, en:"Event identity for the Mycology Club in Saudi Arabia", ar:"هوية فعالية نادي الفطريات في السعودية", url:"https://www.behance.net/MustafaAswany"},
-  {img:"e-masterchef", cat:"events", size:"w6", t:"MasterChef Diabetes", c:"AstraZeneca", y:2019, en:"Stage, roll-ups and promo for a Kuwait event", ar:"مسرح ورول أب وبرومو لفعالية في الكويت", url:VIMEO(505787705), video:1},
-  {img:"b-dillx-social", cat:"social", size:"w4", t:"Social media designs", c:"DillX", y:2024, en:"Bilingual posts and campaign visuals", ar:"بوستات وحملات بالعربي والإنجليزي", url:BEH(195620785)},
-  {img:"v-nextcare", cat:"motion", size:"w4", t:"App guide", c:"Nextcare", y:2023, en:"Animated walkthrough of the Nextcare app", ar:"شرح متحرك لتطبيق Nextcare", url:VIMEO(865548793), video:1},
-  {img:"v-whiteboard", cat:"motion", size:"w4", t:"Programming, explained", c:"Whiteboard", y:2024, en:"Arabic whiteboard animation", ar:"وايت بورد أنيميشن بالعربي لشرح البرمجة", url:VIMEO(968180340), video:1},
-  {img:"b-udacity3d", cat:"digital", size:"w6", t:"3D room", c:"Udacity", y:2023, en:"Isometric 3D set for course content", ar:"غرفة 3D لمحتوى الكورسات", url:BEH(199539611)},
-  {img:"v-windenergy", cat:"motion", size:"w6", t:"Logo animation", c:"Wind Energy", y:2023, en:"Logo reveal with a turning blade", ar:"تحريك شعار بريشة توربين", url:VIMEO(852223728), video:1},
-  {img:"b-diva", cat:"brand", size:"w4", t:"Dazzling Diva", c:"Diva", y:2021, en:"Jewellery brand identity", ar:"هوية براند مجوهرات", url:BEH(113978455)},
-  {img:"v-barukas", cat:"social", size:"w4", t:"Barukas reel", c:"Barukas", y:2023, en:"Instagram & TikTok ad reel", ar:"ريل إعلاني لإنستجرام وتيك توك", url:VIMEO(738558543), video:1},
-  {img:"v-restaurant", cat:"motion", size:"w4", t:"Restaurant ad", c:"Delivery", y:2021, en:"2D ad animation for food delivery", ar:"إعلان موشن 2D لتوصيل الأكل", url:VIMEO(507185049), video:1}
-];
-const CATS = ["all","motion","video","events","brand","social","digital"];
-const CLIENTS = ["Merck","Novo Nordisk","Udacity","Gilead","Sanofi","Pfizer","Hikma","AbbVie","AstraZeneca","Amgen","Abbott","P&G","Menarini","Nextcare","DillX","Masar","Volaris","Neesh","PastaU","Deboned","Cadulli"];
-const JOBS = [
-  {w:"01/2026 — Now", now:1, en:["Multimedia Specialist","Acorn Strategy & Indigo agency"], ar:["أخصائي ملتيميديا","Acorn Strategy & Indigo agency"]},
-  {w:"12/2024 — Now", now:1, en:["Multimedia Designer","Qwarer Zahab & Cadulli"], ar:["مصمم ملتيميديا","Qwarer Zahab & Cadulli"]},
-  {w:"07/2024 — 12/2024", en:["Multimedia Designer","Neesh Group · Deboned & PastaU (KW & BH)"], ar:["مصمم ملتيميديا","Neesh Group · Deboned & PastaU (الكويت والبحرين)"]},
-  {w:"10/2023 — 07/2024", en:["Multimedia Designer","DillX"], ar:["مصمم ملتيميديا","DillX"]},
-  {w:"09/2022 — 07/2023", en:["Video Designer","Udacity"], ar:["مصمم فيديو","Udacity"]},
-  {w:"04/2022 — 10/2022", en:["Multimedia Designer","Estshara"], ar:["مصمم ملتيميديا","Estshara"]},
-  {w:"03/2021 — Now", now:1, en:["Multimedia Designer","Freelancer.com"], ar:["مصمم ملتيميديا","Freelancer.com"]},
-  {w:"07/2019 — 03/2021", en:["Multimedia Designer","Eventy LLC (Volaris)"], ar:["مصمم ملتيميديا","Eventy LLC (Volaris)"]},
-  {w:"2016 — 2019", en:["Graphic & Video Designer","Freelance"], ar:["مصمم جرافيك وفيديو","فريلانس"]}
-];
-const SKILLS = {
-  en:["Motion graphics","2D animation","Logo animation","Video editing","Brand identity","Social media design","Event branding","HTML email campaigns","Whiteboard animation","AI-assisted visuals","UI/UX basics","Drawing"],
-  ar:["موشن جرافيك","أنيميشن 2D","تحريك الشعارات","مونتاج فيديو","هوية بصرية","تصميم سوشيال ميديا","هوية الفعاليات","حملات إيميل HTML","وايت بورد أنيميشن","تصميم بالذكاء الاصطناعي","أساسيات UI/UX","رسم"]
-};
-const LINKS = [
-  {k:"Email", ka:"الإيميل", v:"Mu.Aswany@gmail.com", copy:1},
-  {k:"WhatsApp", ka:"واتساب", v:"+20 155 745 5564", href:"https://wa.me/201557455564"},
-  {k:"Vimeo", ka:"Vimeo", v:"vimeo.com/mustafaaswany", href:"https://vimeo.com/mustafaaswany"},
-  {k:"Behance", ka:"Behance", v:"behance.net/MustafaAswany", href:"https://www.behance.net/MustafaAswany"},
-  {k:"LinkedIn", ka:"لينكدإن", v:"linkedin.com/in/mustafaaswany", href:"https://www.linkedin.com/in/mustafaaswany/"}
-];
-const T = {
-  en:{view:"View",nWork:"Work",nClients:"Clients",nProcess:"Process",nJourney:"Journey",nContact:"Contact",talk:"Let's talk",hello:"Hello, I'm",first:"Mustafa",last:"Alaswany.",role:"Multimedia designer",role2:"Graphic · Motion · Video",bio:"I design brands and make them move: motion graphics, video and identities for healthcare, tech and food brands across Egypt and the Gulf, since 2016.",seeWork:"See the work",resume:"Download Resume",vimeo:"Watch on Vimeo",s1:"Years designing & animating",s2:"Brands, from Pfizer to Udacity",s3:"Videos & motion pieces published",scroll:"Scroll",e1:"Selected work · 2019 — 2026",w1:"Work that",w2:"moves.",wP:"Motion graphics, video and identity work. Videos open on Vimeo, design projects on Behance.",allV:"All 37 videos on Vimeo",allB:"Design projects on Behance",e2:"Clients & brands",c1:"Part of the",c2:"bigger picture.",e3:"How I work",p1:"From brief",p2:"to final",p3:"frame.",pP:"Every piece goes through the same five cuts. It keeps the story clear and the deadline safe.",q:"“Design is how it looks. Motion is how it feels. I care about both.”",t1:"The brief",d1:"Understand the message, the audience, and where the piece will play: feed, stage screen or inbox.",t2:"Script & storyboard",d2:"Lock the story and timing before the first keyframe, so revisions stay small.",t3:"Styleframes",d3:"Design key frames in the brand's type, colour and tone, and agree on the look.",t4:"Animate & edit",d4:"Build the motion in After Effects, cut to voiceover and music in Premiere, refine the rhythm.",t5:"Sound & delivery",d5:"Clean the audio, grade, and export every size the platforms need.",e4:"The journey",j1:"Keep moving.",j2:"Keep making.",jP:"Ten years across agencies, pharma events, ed-tech and e-commerce.",eduL:"Education",edu1:"Bachelor of Management Information Systems",crsL:"Course",edu2:"Motion graphics, Motion Camp",schL:"Scholarship",edu3:"Udacity Developer Challenge: front-end & Android",e5:"Toolkit",k1:"Tools of",k2:"the trade.",e6:"Your next story",b1:"Let's start",b2:"a new story!",cP:"Have a launch, an event or a brand that needs to move? Send me the brief and I'll get back to you within a day.",city:"Cairo, Egypt",top:"Back to top ↑",
-      cats:{all:"All",motion:"Motion",video:"Video",events:"Events",brand:"Branding",social:"Social",digital:"Digital & 3D"}, watch:"Watch", see:"View", skip:"Skip build", copy:"Copy", copied:"Copied", now:"Now", band:["Motion graphics","Video editing","Brand identity","2D animation","Social content","Logo animation","Event visuals"]},
-  ar:{view:"شاهد",nWork:"الأعمال",nClients:"العملاء",nProcess:"طريقتي",nJourney:"المسيرة",nContact:"تواصل",talk:"يلا نشتغل",hello:"أهلاً، أنا",first:"مصطفى",last:"الأسواني.",role:"مصمم ملتيميديا",role2:"جرافيك · موشن · فيديو",bio:"بصمم هويات وبحرّكها: موشن جرافيك وفيديو وهويات بصرية لبراندات في الصحة والتكنولوجيا والأكل في مصر والخليج، من 2016.",seeWork:"شوف الأعمال",resume:"حمّل السي في",vimeo:"شاهد على Vimeo",s1:"سنين في التصميم والتحريك",s2:"براند، من Pfizer لـ Udacity",s3:"فيديو وعمل موشن منشور",scroll:"انزل",e1:"أعمال مختارة · 2019 — 2026",w1:"أعمال",w2:"بتتحرك.",wP:"موشن جرافيك وفيديو وهويات بصرية. الفيديوهات بتفتح على Vimeo، والتصميمات على Behance.",allV:"الـ 37 فيديو على Vimeo",allB:"مشاريع التصميم على Behance",e2:"العملاء والبراندات",c1:"جزء من",c2:"الصورة الأكبر.",e3:"طريقتي في الشغل",p1:"من البريف",p2:"لحد آخر",p3:"فريم.",pP:"كل شغل بيعدّي على نفس الخمس مراحل، عشان القصة تفضل واضحة والميعاد مايتأخرش.",q:"«التصميم هو شكل الحاجة، والموشن هو إحساسها. وأنا بهتم بالاتنين.»",t1:"البريف",d1:"أفهم الرسالة والجمهور، والمكان اللي هيتعرض فيه الشغل: فيد، شاشة مسرح، أو إيميل.",t2:"السكريبت والستوري بورد",d2:"أقفل القصة والتوقيت قبل أول كي فريم، عشان التعديلات تبقى بسيطة.",t3:"الستايل فريمز",d3:"أصمم الفريمات الأساسية بخطوط وألوان وروح البراند، ونتفق على الشكل.",t4:"التحريك والمونتاج",d4:"أبني الموشن على After Effects، وأقطع على الفويس أوفر والمزيكا في Premiere، وأظبط الإيقاع.",t5:"الصوت والتسليم",d5:"أنضف الصوت وأعمل الجريد، وأطلّع كل المقاسات اللي المنصات محتاجاها.",e4:"المسيرة",j1:"دايماً بتحرك.",j2:"ودايماً بعمل.",jP:"عشر سنين بين وكالات، وفعاليات أدوية، وتعليم أونلاين، وتجارة إلكترونية.",eduL:"التعليم",edu1:"بكالوريوس نظم المعلومات الإدارية",crsL:"كورس",edu2:"موشن جرافيك، Motion Camp",schL:"منحة",edu3:"منحة Udacity للمطورين: فرونت إند وأندرويد",e5:"أدواتي",k1:"أدوات",k2:"الشغل.",e6:"قصتك الجاية",b1:"يلا نبدأ",b2:"قصة جديدة!",cP:"عندك إطلاق منتج أو فعالية أو براند محتاج يتحرك؟ ابعتلي البريف وهرد عليك خلال يوم.",city:"القاهرة، مصر",top:"لفوق ↑",
-      cats:{all:"الكل",motion:"موشن",video:"فيديو",events:"فعاليات",brand:"هوية",social:"سوشيال",digital:"ديجيتال و3D"}, watch:"شاهد", see:"افتح", skip:"تخطي البناء", copy:"نسخ", copied:"اتنسخ", now:"حالياً", band:["موشن جرافيك","مونتاج فيديو","هوية بصرية","أنيميشن 2D","محتوى سوشيال","تحريك شعارات","تصميم فعاليات"]}
-};
-
-/* =========================== RENDER =========================== */
+/* =========================== CONTENT ===========================
+   All text, projects, colours, fonts and section order live in content.json.
+   Edit them visually at /editor.html, or by hand in content.json. */
 const $ = s => document.querySelector(s);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const PREVIEW = /[?&]preview=1/.test(location.search);
 const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const SMALL = matchMedia("(max-width: 760px), (hover: none)").matches;
-let LANG = "en"; let currentCat = "all";
+let C = null, LANG = "en", currentCat = "all";
+const tx = k => (C.text[LANG] && C.text[LANG][k] != null) ? C.text[LANG][k] : (C.text.en[k] ?? "");
+if (PREVIEW) document.documentElement.classList.add("preview");
+
+async function loadContent(){
+  const inline = () => { try { return JSON.parse(document.getElementById("content-default").textContent); } catch(_) { return null; } };
+  try {
+    const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 4000);
+    const r = await fetch("content.json?v=" + Date.now(), {cache:"no-store", signal: ctl.signal}); clearTimeout(t);
+    if (r.ok) return await r.json();
+  } catch(_) {}
+  return inline();
+}
+
+function fontStack(f){ return `"${String(f && f.name || f || "").replace(/"/g,"")}"`; }
+function applyTheme(){
+  const th = C.theme, root = document.documentElement.style;
+  for (const [k,v] of Object.entries(th.colors || {})) root.setProperty("--" + k, v);
+  const F = th.fonts || {};
+  root.setProperty("--f-display", fontStack(F.display)); root.setProperty("--f-body", fontStack(F.body));
+  root.setProperty("--f-mono", fontStack(F.mono)); root.setProperty("--f-ar-display", fontStack(F.arDisplay)); root.setProperty("--f-ar-body", fontStack(F.arBody));
+  root.setProperty("--r", (th.radius ?? 4) + "px"); root.setProperty("--hs", th.headingScale ?? 1);
+  const fams = [...new Set(Object.values(F).map(f => f && (f.spec || String(f.name||"").replace(/ /g,"+"))).filter(Boolean))];
+  const href = "https://fonts.googleapis.com/css2?" + fams.map(f => "family=" + f).join("&") + "&display=swap";
+  const link = $("#gfonts"); if (link && link.href !== href) link.href = href;
+  const fx = th.effects || {};
+  document.documentElement.classList.toggle("no-grain", fx.grain === false);
+  $("#follow").style.display = fx.cursor === false ? "none" : "";
+  const meta = document.querySelector('meta[name="theme-color"]'); if (meta) meta.content = th.colors.ink;
+}
+
+function arrange(){
+  const main = $("main");
+  (C.sections || []).forEach(s => { const el = document.querySelector(`[data-sec="${s.id}"]`); if (!el) return; el.hidden = !s.show; main.appendChild(el); });
+  const vis = id => { const s = (C.sections||[]).find(x => x.id === id); return !s || s.show; };
+  document.querySelectorAll("#navLinks a").forEach(a => { a.parentElement.hidden = !vis(a.getAttribute("href").slice(1)); });
+}
 
 function render(){
-  const L = T[LANG];
-  document.querySelectorAll("[data-i]").forEach(el => { const v = L[el.dataset.i]; if (v != null) el.textContent = v; });
-  // filters
-  $("#filters").innerHTML = CATS.map(c => `<button type="button" id="f-${c}" data-c="${c}" aria-pressed="${c===currentCat}">${L.cats[c]}</button>`).join("");
+  document.querySelectorAll("[data-i]").forEach(el => { const v = tx(el.dataset.i); if (v != null) el.textContent = v; });
+  $("#giantEn").textContent = C.text.en.giant || ""; $("#giantAr").textContent = (C.text.ar && C.text.ar.giant) || C.text.en.giant || "";
+  const img = $("#heroImg"); if (img.getAttribute("src") !== C.hero.photo) img.src = C.hero.photo; img.alt = tx("owner");
+  $("#heroVimeo").href = C.urls.vimeo; $("#moreVimeo").href = C.urls.vimeo; $("#moreBehance").href = C.urls.behance;
+  $("#resumeBtn").href = C.urls.resume; $("#resumeBtn").hidden = !C.urls.resume;
+  $("#yr").textContent = new Date().getFullYear();
+  document.title = tx("owner");
+  // stats
+  $("#stats").innerHTML = (C.hero.stats || []).map(st => `<div class="stat rv-up"><b><span class="num" data-to="${+st.n||0}">${+st.n||0}</span><em>${esc(st.suf)}</em></b><span>${esc(st[LANG] || st.en)}</span></div>`).join("");
+  // filters (only categories that have visible work)
+  const work = (C.work || []).filter(w => w.show !== false);
+  const used = new Set(work.map(w => w.cat));
+  const cats = [{id:"all"}, ...(C.cats || []).filter(c => used.has(c.id))];
+  if (!cats.some(c => c.id === currentCat)) currentCat = "all";
+  const catName = id => { const c = (C.cats||[]).find(x => x.id === id); return id === "all" ? tx("all") : c ? (c[LANG] || c.en) : id; };
+  $("#filters").innerHTML = cats.map(c => `<button type="button" id="f-${esc(c.id)}" data-c="${esc(c.id)}" aria-pressed="${c.id===currentCat}">${esc(catName(c.id))}</button>`).join("");
   // wall
-  $("#wall").innerHTML = WORK.map((w,i) => `
-    <a class="card ${w.size}" href="${w.url}" target="_blank" rel="noopener" data-c="${w.cat}" ${currentCat!=="all"&&currentCat!==w.cat?"hidden":""} data-f="${w.video?L.watch:L.see}">
+  $("#wall").innerHTML = work.map(w => `
+    <a class="card ${esc(w.size||"w4")}" href="${esc(w.url||"#")}" target="_blank" rel="noopener" data-c="${esc(w.cat)}" data-work="${C.work.indexOf(w)}" ${currentCat!=="all"&&currentCat!==w.cat?"hidden":""} data-f="${esc(w.video?tx("watch"):tx("see"))}">
       <div class="frame">
-        <div class="badge">${w.video?'<span class="play" aria-hidden="true"></span>':""}<span>${L.cats[w.cat]}</span></div>
-        <img src="img/${w.img}.webp" alt="${esc(w.t)} — ${esc(w.c)}" loading="lazy">
+        <div class="badge">${w.video?'<span class="play" aria-hidden="true"></span>':""}<span>${esc(catName(w.cat))}</span></div>
+        ${w.img?`<img src="${esc(w.img)}" alt="${esc(w.t)} — ${esc(w.c)}" loading="lazy">`:""}
       </div>
-      <div class="meta"><div><h3>${esc(w.t)}</h3><p>${esc(w.c)} · ${w.y} — ${esc(w[LANG])}</p></div><span class="go" aria-hidden="true">↗</span></div>
+      <div class="meta"><div><h3>${esc(w.t)}</h3><p>${esc(w.c)}${w.y?` · ${esc(w.y)}`:""}${(w[LANG]||w.en)?` — ${esc(w[LANG]||w.en)}`:""}</p></div><span class="go" aria-hidden="true">↗</span></div>
     </a>`).join("");
   // band
-  const band = L.band.map(b => `<span>${esc(b)}</span>`).join("");
+  const band = (C.band || []).map(b => `<span>${esc(b[LANG] || b.en)}</span>`).join("");
   $("#band").innerHTML = band + band + band;
   // clients
-  const half = Math.ceil(CLIENTS.length/2);
+  const cl = C.clients || [], half = Math.ceil(cl.length/2);
   const mk = arr => arr.map((c,i) => `<span class="${i%4===1?"r":""}">${esc(c)}</span>`).join("");
-  $("#row1").innerHTML = mk(CLIENTS.slice(0,half)).repeat(3);
-  $("#row2").innerHTML = mk(CLIENTS.slice(half)).repeat(3);
-  // jobs
-  $("#jobs").innerHTML = JOBS.map(j => `<div class="job${j.now?" now":""}"><span class="when">${j.w.replace("Now", L.now)}</span><h3>${esc(j[LANG][0])}</h3><span class="co">${esc(j[LANG][1])}</span><span class="dot" aria-hidden="true"></span></div>`).join("");
-  $("#chips").innerHTML = SKILLS[LANG].map(s => `<span>${esc(s)}</span>`).join("");
-  $("#links").innerHTML = LINKS.map((l,i) => `<li><span class="mono">${LANG==="ar"?l.ka:l.k}</span>${l.href?`<a class="v" href="${l.href}" target="_blank" rel="noopener">${esc(l.v)}</a>`:`<span class="v" id="lv${i}">${esc(l.v)}</span>`}${l.copy?`<button class="copy" type="button" id="copy${i}" data-i2="${i}">${L.copy}</button>`:"<span></span>"}</li>`).join("");
+  $("#row1").innerHTML = mk(cl.slice(0,half)).repeat(3);
+  $("#row2").innerHTML = mk(cl.slice(half)).repeat(3);
+  // process steps
+  const rail = '<span class="rail" aria-hidden="true"><i id="railFill"></i></span>';
+  $("#steps").innerHTML = rail + (C.steps || []).map((st,i) => { const L = st[LANG] || st.en; return `<li><span class="n">${String(i+1).padStart(2,"0")}</span><div><h3>${esc(L.t)}</h3><p>${esc(L.d)}</p></div></li>`; }).join("");
+  // journey
+  $("#jobs").innerHTML = (C.jobs || []).map(j => { const L = j[LANG] || j.en; return `<div class="job${j.now?" now":""}"><span class="when">${esc(String(j.w).replace("Now", tx("now")))}</span><h3>${esc(L.role)}</h3><span class="co">${esc(L.co)}</span><span class="dot" aria-hidden="true"></span></div>`; }).join("");
+  $("#edu").innerHTML = (C.edu || []).map(e => `<div><span class="mono">${esc(e.label[LANG]||e.label.en)}</span><b>${esc(e.title[LANG]||e.title.en)}</b><span class="mono">${esc(e.meta)}</span></div>`).join("");
+  $("#edu").hidden = !(C.edu || []).length;
+  // skills
+  $("#apps").innerHTML = (C.apps || []).map(a => `<span class="app" style="color:${esc(a.c)}" title="${esc(a.t)}">${esc(a.l)}</span>`).join("");
+  $("#chips").innerHTML = (C.skills || []).map(s => `<span>${esc(s[LANG] || s.en)}</span>`).join("");
+  // contact
+  $("#links").innerHTML = (C.links || []).map((l,i) => `<li><span class="mono">${esc(LANG==="ar"?(l.ka||l.k):l.k)}</span>${l.href?`<a class="v" href="${esc(l.href)}" target="_blank" rel="noopener">${esc(l.v)}</a>`:`<span class="v" id="lv${i}">${esc(l.v)}</span>`}${l.copy?`<button class="copy" type="button" id="copy${i}" data-i2="${i}">${esc(tx("copy"))}</button>`:"<span></span>"}</li>`).join("");
   bindCards();
 }
 
@@ -574,7 +568,7 @@ function setLang(l){
   document.documentElement.lang = l;
   document.documentElement.dir = l === "ar" ? "rtl" : "ltr";
   document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", b.dataset.l === l));
-  try { localStorage.setItem("aswany-lang", l); } catch(_) {}
+  if (!PREVIEW) try { localStorage.setItem("aswany-lang", l); } catch(_) {}
   render();
   if (window.ScrollTrigger) { setupMotion(true); ScrollTrigger.refresh(); }
 }
@@ -594,16 +588,16 @@ $("#filters").addEventListener("click", e => {
 
 $("#links").addEventListener("click", e => {
   const b = e.target.closest(".copy"); if (!b) return;
-  const i = +b.dataset.i2, val = LINKS[i].v, L = T[LANG];
-  const done = () => { b.textContent = L.copied; setTimeout(() => b.textContent = L.copy, 1600); };
+  const i = +b.dataset.i2, val = C.links[i].v;
+  const done = () => { b.textContent = tx("copied"); setTimeout(() => b.textContent = tx("copy"), 1600); };
   const sel = () => { const r = document.createRange(); r.selectNodeContents($("#lv"+i)); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
   try { navigator.clipboard.writeText(val).then(done, sel); } catch(_) { sel(); }
 });
 
 /* follower: one soft circle, only over work cards */
-const fol = $("#follow"); let fx = innerWidth/2, fy = innerHeight/2, tx = fx, ty = fy;
-addEventListener("pointermove", e => { tx = e.clientX; ty = e.clientY; }, {passive:true});
-(function loop(){ fx += (tx-fx)*.18; fy += (ty-fy)*.18; fol.style.translate = `${fx}px ${fy}px`; requestAnimationFrame(loop); })();
+const fol = $("#follow"); let fx = innerWidth/2, fy = innerHeight/2, tx2 = fx, ty2 = fy;
+addEventListener("pointermove", e => { tx2 = e.clientX; ty2 = e.clientY; }, {passive:true});
+(function loop(){ fx += (tx2-fx)*.18; fy += (ty2-fy)*.18; fol.style.translate = `${fx}px ${fy}px`; requestAnimationFrame(loop); })();
 function bindCards(){
   document.querySelectorAll("#wall .card").forEach(c => {
     c.addEventListener("pointerenter", () => { fol.textContent = c.dataset.f; fol.classList.add("on"); });
@@ -611,8 +605,26 @@ function bindCards(){
   });
 }
 
+/* preview mode: the editor drives this page */
+if (PREVIEW) {
+  addEventListener("message", e => {
+    if (e.origin !== location.origin && location.origin !== "null") return;
+    const m = e.data || {};
+    if (m.type === "aswany:content" && m.content) { C = m.content; applyTheme(); arrange(); render(); countUp(true); if (window.ScrollTrigger) { setupMotion(true); ScrollTrigger.refresh(); } }
+    if (m.type === "aswany:lang") setLang(m.lang);
+    if (m.type === "aswany:scrollTo") { const el = document.querySelector(`[data-sec="${m.sec}"]`); el && el.scrollIntoView({behavior:"smooth", block:"start"}); }
+  });
+  document.addEventListener("click", e => {
+    if (e.target.closest(".lang button, #filters button")) return;
+    e.preventDefault();
+    const card = e.target.closest("[data-work]"), sec = e.target.closest("[data-sec]");
+    parent.postMessage({type:"aswany:select", sec: card ? "work" : sec ? sec.dataset.sec : null, work: card ? +card.dataset.work : null}, "*");
+  }, true);
+}
+
+
 /* =========================== MOTION =========================== */
-let lenis, marqueeTweens = [], built = false;
+let lenis, marqueeTweens = [];
 function setupMotion(rebuild){
   if (!window.gsap || !window.ScrollTrigger) return;
   gsap.registerPlugin(ScrollTrigger);
@@ -621,7 +633,7 @@ function setupMotion(rebuild){
 
   // marquees (always on, slow)
   const mq = (el, dur, from, to) => { if (!el) return; marqueeTweens.push(gsap.fromTo(el, {xPercent:from}, {xPercent:to, duration:dur, ease:"none", repeat:-1})); };
-  if (!RM) {
+  if (!RM && (C.theme.effects||{}).marquee !== false) {
     mq($("#band"), 38, 0, -33.333);
     mq($("#row1"), 46, 0, -33.333);
     mq($("#row2"), 52, -33.333, 0);
@@ -629,7 +641,7 @@ function setupMotion(rebuild){
     let calm;
     ScrollTrigger.create({ onUpdate(s){ const v = Math.min(Math.abs(s.getVelocity())/900, 3); marqueeTweens.forEach(t => gsap.to(t, {timeScale: 1 + v, duration:.3, overwrite:true})); clearTimeout(calm); calm = setTimeout(() => marqueeTweens.forEach(t => gsap.to(t,{timeScale:1,duration:.9,overwrite:true})), 250); } });
   }
-  if (RM) return;
+  if (RM || PREVIEW) return;
 
   // hero parallax
   gsap.to("#giant", {xPercent: rtl ? 12 : -12, ease:"none", scrollTrigger:{trigger:"#hero", start:"top top", end:"bottom top", scrub:true}});
@@ -646,7 +658,9 @@ function setupMotion(rebuild){
 
 function intro(){
   const loader = $("#loader");
-  if (!window.gsap || RM) { loader.remove(); countUp(true); return; }
+  if (!loader) return;
+  if (!window.gsap || RM || PREVIEW) { loader.remove(); countUp(true); return; }
+  if ((C.theme.effects||{}).loader === false) { loader.remove(); heroIn(gsap.timeline()); return; }
   const paths = loader.querySelectorAll(".lp");
   paths.forEach(p => { const L = p.getTotalLength(); p.style.strokeDasharray = L; p.style.strokeDashoffset = L; });
   const c = {v:0}, cnt = $("#count");
@@ -658,9 +672,11 @@ function intro(){
     .to(loader.querySelector(".wipe"), {scaleY:1, duration:.55}, 1.85)
     .set(loader, {background:"transparent"})
     .to(loader.querySelector(".wipe"), {transformOrigin:"top", scaleY:0, duration:.7, ease:"power4.inOut"})
-    .add(() => loader.remove())
-    // hero entrance
-    .from("#giant", {yPercent:30, opacity:0, duration:1.4, ease:"power4.out"}, "-=.55")
+    .add(() => loader.remove());
+  heroIn(tl, "-=.55");
+}
+function heroIn(tl, at){
+  tl.from("#giant", {yPercent:30, opacity:0, duration:1.4, ease:"power4.out"}, at)
     .from("#heroPhoto", {y:80, opacity:0, duration:1.3, ease:"power4.out"}, "<.1")
     .from("#heroName .line > span", {yPercent:110, duration:1.1, stagger:.1, ease:"power4.out"}, "<.2")
     .from(".hero .rv-up", {y:24, opacity:0, duration:.9, stagger:.08, ease:"power3.out"}, "<.2")
@@ -758,20 +774,26 @@ $("#bSkip").addEventListener("click", () => {
 });
 
 /* =========================== BOOT =========================== */
-try { const s = localStorage.getItem("aswany-lang"); if (s === "ar" || s === "en") LANG = s; } catch(_) {}
-document.documentElement.lang = LANG; document.documentElement.dir = LANG === "ar" ? "rtl" : "ltr";
-document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", b.dataset.l === LANG));
-render();
+(async function boot(){
+  C = await loadContent();
+  try { const s = localStorage.getItem("aswany-lang"); if (!PREVIEW && (s === "ar" || s === "en")) LANG = s; } catch(_) {}
+  document.documentElement.lang = LANG; document.documentElement.dir = LANG === "ar" ? "rtl" : "ltr";
+  document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", b.dataset.l === LANG));
+  const fx = C.theme.effects || {};
+  if (fx.agents === false || PREVIEW) B.on = false;
+  applyTheme(); arrange(); render();
+  if (window.Lenis && !RM && !PREVIEW && fx.smooth !== false) {
+    lenis = new Lenis({lerp:.09, smoothWheel:true});
+    if (window.ScrollTrigger) { lenis.on("scroll", ScrollTrigger.update); gsap.ticker.add(t => lenis.raf(t*1000)); gsap.ticker.lagSmoothing(0); }
+    else { (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(); }
+    document.addEventListener("click", e => { const a = e.target.closest('a[href^="#"]'); if (!a) return; const id = a.getAttribute("href"); const el = id === "#top" ? 0 : document.querySelector(id); if (el === null) return; e.preventDefault(); lenis.scrollTo(el, {offset:-20, duration:1.4}); });
+  }
+  setupMotion(false);
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => { intro(); window.ScrollTrigger && ScrollTrigger.refresh(); });
+  setTimeout(() => { const l = $("#loader"); if (l && !window.gsap) l.remove(); }, 2500);
+  if (PREVIEW) parent.postMessage({type:"aswany:ready"}, "*");
+})();
 
-if (window.Lenis && !RM) {
-  lenis = new Lenis({lerp:.09, smoothWheel:true});
-  if (window.ScrollTrigger) { lenis.on("scroll", ScrollTrigger.update); gsap.ticker.add(t => lenis.raf(t*1000)); gsap.ticker.lagSmoothing(0); }
-  else { (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(); }
-  document.addEventListener("click", e => { const a = e.target.closest('a[href^="#"]'); if (!a) return; const id = a.getAttribute("href"); const el = id === "#top" ? 0 : document.querySelector(id); if (el === null) return; e.preventDefault(); lenis.scrollTo(el, {offset:-20, duration:1.4}); });
-}
-setupMotion(false);
-(document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => { intro(); window.ScrollTrigger && ScrollTrigger.refresh(); });
-setTimeout(() => { const l = $("#loader"); if (l && !window.gsap) l.remove(); }, 2500);
 </script>
 
 </body>

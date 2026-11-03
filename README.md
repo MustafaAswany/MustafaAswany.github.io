@@ -4,10 +4,9 @@ Multimedia designer · Graphic · Motion · Video — Cairo, Egypt.
 
 Live: https://mustafaaswany.github.io
 
-## Edit content
-Everything you'd want to change lives at the top of the `<script>` in `index.html`:
-- `WORK` — projects (image in `img/`, link to Vimeo/Behance)
-- `CLIENTS`, `JOBS`, `SKILLS`, `LINKS`
-- `T.en` / `T.ar` — all English / Arabic text
+## Editing
+Open **https://mustafaaswany.github.io/editor.html** to change anything visually:
+colours, fonts, section order, projects (drag & drop), images, and every English/Arabic text.
+Press **Publish** in the editor and the live site updates in about a minute.
 
-Commit to `main` and GitHub Pages republishes in about a minute.
+All content lives in `content.json`; `index.html` reads it on load.
