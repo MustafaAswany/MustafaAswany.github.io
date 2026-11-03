@@ -480,7 +480,7 @@ const PANELS = {
       <div class="f"><label>Token</label><input class="in" id="ghToken" type="password" value="${esc(g.token)}" placeholder="github_pat_…" autocomplete="off" spellcheck="false"></div>
       <div class="row2"><div class="f"><label>Owner</label><input class="in" id="ghOwner" value="${esc(g.owner)}"></div><div class="f"><label>Repository</label><input class="in" id="ghRepo" value="${esc(g.repo)}"></div></div>
       <label class="toggle"><span>Remember on this computer<small>Stored only in this browser. Turn off on shared computers.</small></span><input type="checkbox" id="ghRemember" ${g.remember?"checked":""}></label>
-      <div style="display:flex;gap:8px;margin-top:8px"><button class="btn sm" type="button" id="ghSave">Save connection</button>${g.token?`<button class="btn sm ghost danger" type="button" id="ghForget">Forget token</button>`:""}</div>`)}
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"><button class="btn sm" type="button" id="ghSave">Save connection</button><a class="btn sm ghost" href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">Edit token on GitHub ↗</a>${g.token?`<button class="btn sm ghost danger" type="button" id="ghForget">Forget token</button>`:""}</div>`)}
     ${group("Publish now", `<div class="f"><label>What changed? (optional)</label><input class="in" id="pubMsg" placeholder="Updated projects and colours"></div>
       <button class="btn pri" type="button" id="pubGo" style="width:100%">Publish to mustafaaswany.github.io</button><div class="log" id="pubLog" hidden></div>`)}
     ${group("Backup", `<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" id="expJson">Download backup</button><button class="btn sm" type="button" id="impJson">Restore from backup</button><button class="btn sm ghost danger" type="button" id="resetLive">Discard my changes</button></div><input type="file" id="impFile" accept="application/json,.json" hidden><p class="note">“Discard my changes” reloads the version that's live right now.</p>`)}`; }
@@ -675,7 +675,16 @@ async function publish(){
     toast("Published! The live site updates in about a minute.");
     sendPreview(); setStatus(); if (TAB !== "publish") renderPanel();
   } catch(err) {
+    let diag = "";
+    if (err.status === 403 || err.status === 404) {
+      try {
+        const r = await fetch(`https://api.github.com/repos/${g.owner}/${g.repo}`, {headers:{"Authorization":`Bearer ${g.token}`,"Accept":"application/vnd.github+json"}});
+        if (r.status === 404) diag = "The token can't see the repository. On GitHub, edit the token → Repository access → Only select repositories → add MustafaAswany.github.io → Update.";
+        else if (r.ok) { const j = await r.json(); diag = j.permissions && j.permissions.push === false ? "The token is read-only. On GitHub, edit the token → Permissions → Repository → Contents → Read and write → Update." : ""; }
+      } catch(_) {}
+    }
     const m = err.status === 401 ? "GitHub didn't accept the token. Create a new one and paste it again."
+      : diag ? diag
       : err.status === 403 || err.status === 404 ? "The token can't write to this repository. Check it has Contents: Read and write on MustafaAswany.github.io."
       : err.status === 409 || err.status === 422 ? "The site changed on GitHub at the same time. Click Publish again."
       : "Couldn't publish: " + err.message;
