@@ -159,6 +159,14 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .secrow.locked{opacity:.7}
 .pill{font:500 10px var(--mono);color:var(--muted);border:1px solid var(--line2);border-radius:999px;padding:2px 7px}
 
+.lock{position:fixed;inset:0;z-index:200;background:radial-gradient(circle at 50% 30%,#1d1716,#0c0b0b 70%);display:grid;place-items:center;padding:20px}
+.lock-box{width:min(380px,100%);background:var(--side);border:1px solid var(--line);border-radius:16px;padding:28px 24px;display:grid;gap:14px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.lock-box svg{width:52px;margin:0 auto}
+.lock-box h1{font-size:18px;margin:0}
+.lock-box p{margin:0;color:var(--muted);font-size:13px}
+.lock-box .err{color:#ff8c84;min-height:18px;font-size:12.5px}
+.lock-box .toggle{text-align:start}
+body.locked .app,body.locked .top{filter:blur(14px);pointer-events:none;user-select:none}
 @media (max-width:980px){
   .app{grid-template-columns:1fr}
   .stage{display:none}
@@ -169,7 +177,7 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 }
 </style>
 </head>
-<body>
+<body class="locked">
 <header class="top">
   <div class="logo">
     <svg viewBox="20 20 614 464" aria-hidden="true"><g fill="#d9544a" fill-rule="evenodd"><path d="M28.3 474 278.5 29.9 349.2 155.3 169.7 474ZM95.8 434 277.1 112.2 302.8 157.8 147.2 434Z"/><path d="M625.7 474 375.5 29.9 304.8 155.3 484.3 474ZM558.2 434 376.9 112.2 351.2 157.8 506.8 434Z"/><path d="M221.3 474 327 286.4 432.7 474ZM288.8 434 327 366.3 365.2 434Z"/></g></svg>
@@ -202,6 +210,17 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
     <div class="device" id="device"><iframe id="pv" title="Live preview" src="index.html?preview=1"></iframe></div>
     <div class="hint" id="hint">Click anything in the preview to edit it</div>
   </main>
+</div>
+<div class="lock" id="lock" hidden>
+  <form class="lock-box" id="lockForm" autocomplete="on">
+    <svg viewBox="20 20 614 464" aria-hidden="true"><g fill="#d9544a" fill-rule="evenodd"><path d="M28.3 474 278.5 29.9 349.2 155.3 169.7 474ZM95.8 434 277.1 112.2 302.8 157.8 147.2 434Z"/><path d="M625.7 474 375.5 29.9 304.8 155.3 484.3 474ZM558.2 434 376.9 112.2 351.2 157.8 506.8 434Z"/><path d="M221.3 474 327 286.4 432.7 474ZM288.8 434 327 366.3 365.2 434Z"/></g></svg>
+    <h1>Portfolio Editor</h1><p>Enter the editor password to continue.</p>
+    <input type="text" name="username" value="editor" autocomplete="username" hidden>
+    <input class="in" id="lockPw" type="password" placeholder="Password" autocomplete="current-password" required>
+    <label class="toggle"><span>Remember on this computer<small>For 30 days. Turn off on shared computers.</small></span><input type="checkbox" id="lockRemember" checked></label>
+    <button class="btn pri" type="submit" id="lockGo">Unlock</button>
+    <div class="err" id="lockErr" role="alert"></div>
+  </form>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <input type="file" id="filePick" accept="image/*" hidden>
@@ -481,6 +500,11 @@ const PANELS = {
       <div class="row2"><div class="f"><label>Owner</label><input class="in" id="ghOwner" value="${esc(g.owner)}"></div><div class="f"><label>Repository</label><input class="in" id="ghRepo" value="${esc(g.repo)}"></div></div>
       <label class="toggle"><span>Remember on this computer<small>Stored only in this browser. Turn off on shared computers.</small></span><input type="checkbox" id="ghRemember" ${g.remember?"checked":""}></label>
       <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"><button class="btn sm" type="button" id="ghSave">Save connection</button><a class="btn sm ghost" href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">Edit token on GitHub ↗</a>${g.token?`<button class="btn sm ghost danger" type="button" id="ghForget">Forget token</button>`:""}</div>`)}
+    ${group("Editor password", `<p class="note" style="margin:0 0 12px">${LOCK ? "● This editor is locked with a password. Change it here." : "Set a password so only you can open this editor."}</p>
+      <div class="f"><label>${LOCK ? "New password" : "Password"}</label><input class="in" id="pw1" type="password" autocomplete="new-password" placeholder="At least 8 characters"></div>
+      <div class="f"><label>Repeat password</label><input class="in" id="pw2" type="password" autocomplete="new-password"></div>
+      <button class="btn sm" type="button" id="pwSave">${LOCK ? "Change password" : "Set password"}</button>
+      <p class="note">Needs the GitHub connection above. If you forget it, delete <code>editor-lock.json</code> from the repository on GitHub and set a new one.</p>`)}
     ${group("Publish now", `<div class="f"><label>What changed? (optional)</label><input class="in" id="pubMsg" placeholder="Updated projects and colours"></div>
       <button class="btn pri" type="button" id="pubGo" style="width:100%">Publish to mustafaaswany.github.io</button><div class="log" id="pubLog" hidden></div>`)}
     ${group("Backup", `<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" id="expJson">Download backup</button><button class="btn sm" type="button" id="impJson">Restore from backup</button><button class="btn sm ghost danger" type="button" id="resetLive">Discard my changes</button></div><input type="file" id="impFile" accept="application/json,.json" hidden><p class="note">“Discard my changes” reloads the version that's live right now.</p>`)}`; }
@@ -550,6 +574,7 @@ $("#panel").addEventListener("click", async e => {
   if (t.id === "ghSave") { saveGh(); toast("Connection saved"); renderPanel(); return; }
   if (t.id === "ghForget") { LS.del(GH_KEY); sessionStorage.removeItem(GH_KEY); toast("Token removed from this browser"); renderPanel(); return; }
   if (t.id === "pubGo") { saveGh(); publish(); return; }
+  if (t.id === "pwSave") { saveGh(); setPassword(); return; }
   if (t.id === "expJson") { const b = new Blob([JSON.stringify(resolved(), null, 2)], {type:"application/json"}); const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = `portfolio-backup-${new Date().toISOString().slice(0,10)}.json`; a.click(); return; }
   if (t.id === "impJson") { $("#impFile").click(); return; }
   if (t.id === "resetLive") { if (!confirmInline(t, "Discard all unpublished changes?")) return; C = JSON.parse(PUBLISHED); PENDING = {}; LS.del(DRAFT_KEY); afterJump(); toast("Back to the live version"); return; }
@@ -704,8 +729,58 @@ addEventListener("keydown", e => {
 $("#undo").addEventListener("click", undo); $("#redo").addEventListener("click", redo);
 addEventListener("beforeunload", e => { if (Object.keys(PENDING).length && JSON.stringify(C) !== PUBLISHED) { e.preventDefault(); e.returnValue = ""; } });
 
+/* ===================== password lock ===================== */
+let LOCK = null; const UNLOCK_KEY = "aswany-editor-unlock";
+const hex = buf => [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,"0")).join("");
+async function derive(pw, salt, iter){
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveBits"]);
+  return hex(await crypto.subtle.deriveBits({name:"PBKDF2", hash:"SHA-256", salt: new TextEncoder().encode(salt), iterations: iter}, key, 256));
+}
+async function loadLock(){
+  try { const r = await fetch("editor-lock.json?v=" + Date.now(), {cache:"no-store"}); if (r.ok) LOCK = await r.json(); } catch(_) {}
+}
+function unlocked(){
+  if (!LOCK) return true;
+  try { const u = JSON.parse(LS.get(UNLOCK_KEY) || sessionStorage.getItem(UNLOCK_KEY) || "null"); return !!u && u.h === LOCK.hash && (!u.exp || u.exp > Date.now()); } catch(_) { return false; }
+}
+function showLock(){
+  return new Promise(res => {
+    $("#lock").hidden = false; setTimeout(() => $("#lockPw").focus(), 50);
+    $("#lockForm").onsubmit = async e => {
+      e.preventDefault(); $("#lockErr").textContent = ""; $("#lockGo").disabled = true; $("#lockGo").textContent = "Checking…";
+      const h = await derive($("#lockPw").value, LOCK.salt, LOCK.iter || 210000);
+      $("#lockGo").disabled = false; $("#lockGo").textContent = "Unlock";
+      if (h !== LOCK.hash) { $("#lockErr").textContent = "Wrong password. Try again."; $("#lockPw").select(); return; }
+      const rec = JSON.stringify({h, exp: Date.now() + 30*864e5});
+      if ($("#lockRemember").checked) LS.set(UNLOCK_KEY, rec); else try { sessionStorage.setItem(UNLOCK_KEY, rec); } catch(_) {}
+      $("#lock").hidden = true; res();
+    };
+  });
+}
+async function setPassword(){
+  const a = $("#pw1").value, b = $("#pw2").value, g = ghCfg();
+  if (a.length < 8) return toast("Use at least 8 characters", true);
+  if (a !== b) return toast("The two passwords don't match", true);
+  if (!g.token) return toast("Connect GitHub first (section above)", true);
+  const salt = hex(crypto.getRandomValues(new Uint8Array(16))), iter = 210000;
+  const hash = await derive(a, salt, iter);
+  const body = JSON.stringify({salt, iter, hash}) + "\n";
+  const url = `https://api.github.com/repos/${g.owner}/${g.repo}/contents/editor-lock.json`;
+  const H = {"Authorization": `Bearer ${g.token}`, "Accept": "application/vnd.github+json"};
+  try {
+    let sha; const ex = await fetch(url + "?ref=" + g.branch, {headers:H, cache:"no-store"}); if (ex.ok) sha = (await ex.json()).sha;
+    const r = await fetch(url, {method:"PUT", headers:{...H, "Content-Type":"application/json"}, body: JSON.stringify({message: LOCK ? "Change editor password" : "Lock editor with a password", content: btoa(body), branch: g.branch, ...(sha ? {sha} : {})})});
+    if (!r.ok) throw new Error((await r.json().catch(() => ({}))).message || r.status);
+    LOCK = {salt, iter, hash}; LS.set(UNLOCK_KEY, JSON.stringify({h: hash, exp: Date.now() + 30*864e5}));
+    toast("Password set. Others will see a lock screen in about a minute."); renderPanel();
+  } catch(err) { toast("Couldn't save the password: " + err.message, true); }
+}
+
 /* ===================== boot ===================== */
 (async function boot(){
+  await loadLock();
+  if (!unlocked()) await showLock();
+  document.body.classList.remove("locked");
   renderTabs(); layoutDevice();
   let live = null;
   try { const r = await fetch("content.json?v=" + Date.now(), {cache:"no-store"}); if (r.ok) live = await r.json(); } catch(_) {}
