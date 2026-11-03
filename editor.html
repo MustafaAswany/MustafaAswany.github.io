@@ -471,11 +471,11 @@ const PANELS = {
     ${group("GitHub connection", `
       ${g.token ? `<p class="note" style="margin:0 0 12px;color:var(--ok)">● Connected as ${esc(g.owner)}/${esc(g.repo)}</p>` : `
       <ol class="steps-help">
-        <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener"><b>github.com → New fine-grained token</b></a>.</li>
-        <li>Name: <code>Portfolio editor</code>. Expiration: up to 1 year.</li>
-        <li>Repository access: <b>Only select repositories</b> → <code>MustafaAswany.github.io</code>.</li>
-        <li>Permissions → Repository → <b>Contents: Read and write</b>.</li>
-        <li>Click <b>Generate token</b>, copy it and paste it below.</li>
+        <li>Open <a href="https://github.com/settings/personal-access-tokens/new?name=Portfolio+editor&amp;description=Publishes+changes+from+editor.html&amp;target_name=MustafaAswany&amp;expires_in=365&amp;contents=write" target="_blank" rel="noopener"><b>this GitHub page</b></a> (opens with the name and permission already filled in).</li>
+        <li>Under <b>Repository access</b>, choose <b>Only select repositories</b> and pick <code>MustafaAswany.github.io</code>.</li>
+        <li>Check that <b>Permissions → Repository → Contents</b> says <b>Read and write</b>.</li>
+        <li>Click <b>Generate token</b> at the bottom, then <b>copy</b> the token that starts with <code>github_pat_</code>.</li>
+        <li>Paste it below and click <b>Save connection</b>. Your changes stay saved on this computer while you do this.</li>
       </ol><div style="height:12px"></div>`}
       <div class="f"><label>Token</label><input class="in" id="ghToken" type="password" value="${esc(g.token)}" placeholder="github_pat_…" autocomplete="off" spellcheck="false"></div>
       <div class="row2"><div class="f"><label>Owner</label><input class="in" id="ghOwner" value="${esc(g.owner)}"></div><div class="f"><label>Repository</label><input class="in" id="ghRepo" value="${esc(g.repo)}"></div></div>
