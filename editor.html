@@ -411,7 +411,7 @@ const PANELS = {
     <h2>Hero</h2><p class="lead">The first screen: your photo, name and headline numbers.</p>
     ${group("Photo", `${drop("hero.photo","Drop a photo with a transparent background (PNG) or click",true)}<p class="note">Cut-out photos look best. Large images are shrunk automatically.</p>`)}
     ${group("Text", `${txt("Big background word","giant")}${txt("Greeting","hello")}${txt("First name","first")}${txt("Last name","last")}${txt("Title","role")}${txt("Subtitle","role2")}${txt("Short bio","bio",{area:true})}`)}
-    ${group("Buttons", `${txt("Main button","seeWork")}${txt("Vimeo button","vimeo")}${field("Vimeo link","urls.vimeo")}${txt("Resume button","resume")}${field("Resume file link","urls.resume",{note:"A direct download link (Google Drive “uc?export=download” link works). Leave empty to hide the button."})}${txt("Scroll hint","scroll")}`)}
+    ${group("Buttons", `${txt("Main button","seeWork")}${txt("Resume button","resume")}${field("Resume file link","urls.resume",{note:"A direct download link (Google Drive “uc?export=download” link works). Leave empty to hide the button."})}${txt("Scroll hint","scroll")}`)}
     ${group("Numbers", list("hero.stats", {
       head: (s) => `<div class="ititle" data-open="hero.stats"><b>${esc(s.n)}${esc(s.suf)}</b><small>${esc(s.en)}</small></div>`,
       body: (s,i) => `<div class="row2">${field("Number",`hero.stats.${i}.n`,{type:"number"})}${field("After number",`hero.stats.${i}.suf`,{ph:"+"})}</div>${bi("Label",`hero.stats.${i}.en`,`hero.stats.${i}.ar`)}`,
@@ -431,7 +431,7 @@ const PANELS = {
       head: (c,i) => `<div class="ititle" data-open="cats"><b>${esc(c.en)}</b><small>${esc(c.ar)}</small></div>`,
       body: (c,i) => bi("Name",`cats.${i}.en`,`cats.${i}.ar`),
       add: true, addLabel: "Add category"}) + `<p class="note">Category tabs only appear when at least one visible project uses them.</p>`)}
-    ${group("Section text", `${txt("Small label","e1")}${txt("Heading line 1","w1")}${txt("Heading line 2 (accent)","w2")}${txt("Intro","wP",{area:true,rows:2})}${txt("Vimeo button","allV")}${txt("Behance button","allB")}${field("Behance link","urls.behance")}`)}`,
+    ${group("Section text", `${txt("Small label","e1")}${txt("Heading line 1","w1")}${txt("Heading line 2 (accent)","w2")}${txt("Intro","wP",{area:true,rows:2})}${txt("Vimeo button","allV")}${field("Vimeo link","urls.vimeo")}${txt("Behance button","allB")}${field("Behance link","urls.behance")}`)}`,
 
   clients: () => `
     <h2>Clients</h2><p class="lead">Brand names in the grey strip under the red one and in the Clients section. Drag to reorder.</p>

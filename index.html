@@ -132,8 +132,8 @@ html[dir="rtl"] .btn:hover .ar{transform:scaleX(-1) translateX(4px)}
 html[dir="rtl"] .hs::before{transform-origin:right}
 .hs:hover{border-color:transparent;color:#fff}
 .hs:hover::before{transform:scaleX(1)}
-.hs b{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--c);color:#fff;font:800 11px/1 var(--body);transition:background .35s,color .35s,transform .5s var(--ease)}
-.hs:hover b{background:#fff;color:var(--c);transform:rotate(-10deg)}
+.hs b{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--panel);border:1px solid var(--line);color:var(--fg);font:800 11px/1 var(--body);transition:background .35s,color .35s,transform .5s var(--ease)}
+.hs:hover b{background:#fff;border-color:#fff;color:var(--c);transform:rotate(-10deg)}
 @media (max-width:900px){.hero-social{justify-content:flex-start}}
 .hero-r{grid-column:3;display:flex;flex-direction:column;gap:22px}
 .stat b{display:block;font-family:var(--display-en);font-weight:400;font-size:clamp(40px,4vw,56px);line-height:1;font-variant-numeric:tabular-nums}
@@ -386,7 +386,6 @@ html.preview .bbar,html.preview .loader,html.preview .follow{display:none!import
         <p class="bio rv-up" data-i="bio">I design brands and make them move: motion graphics, video and identities for healthcare, tech and food brands across Egypt and the Gulf, since 2016.</p>
         <div class="cta rv-up">
           <a class="btn primary" href="#work"><span data-i="seeWork">See the work</span> <span class="ar">→</span></a>
-          <a class="btn ghost" id="heroVimeo" href="https://vimeo.com/mustafaaswany" target="_blank" rel="noopener"><span data-i="vimeo">Watch on Vimeo</span> <span class="ar">↗</span></a>
         </div>
         <a class="btn resume rv-up" id="resumeBtn" href="https://drive.google.com/uc?export=download&amp;id=1bAHAPv6e_vWSqQGU9kMeC7TXg8zTAj6i" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg><span data-i="resume">Download Resume</span></a>
         <div class="hero-social rv-up" id="heroSocial"></div>
@@ -557,7 +556,7 @@ function render(){
   document.querySelectorAll("[data-i]").forEach(el => { const v = tx(el.dataset.i); if (v != null) el.textContent = v; });
   $("#giantEn").textContent = C.text.en.giant || ""; $("#giantAr").textContent = (C.text.ar && C.text.ar.giant) || C.text.en.giant || "";
   const img = $("#heroImg"); if (img.getAttribute("src") !== C.hero.photo) img.src = C.hero.photo; img.alt = tx("owner");
-  $("#heroVimeo").href = C.urls.vimeo; $("#moreVimeo").href = C.urls.vimeo; $("#moreBehance").href = C.urls.behance;
+  $("#moreVimeo").href = C.urls.vimeo; $("#moreBehance").href = C.urls.behance;
   $("#resumeBtn").href = C.urls.resume; $("#resumeBtn").hidden = !C.urls.resume;
   $("#yr").textContent = new Date().getFullYear();
   document.title = tx("owner");
