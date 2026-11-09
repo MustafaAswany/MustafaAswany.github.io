@@ -851,7 +851,8 @@
       "badge": "PDF",
       "color": "#d9544a",
       "wide": true,
-      "copy": false
+      "copy": false,
+      "top": false
     },
     {
       "k": "Behance",
@@ -861,7 +862,8 @@
       "badge": "Be",
       "color": "#1769ff",
       "wide": false,
-      "copy": false
+      "copy": false,
+      "top": true
     },
     {
       "k": "Vimeo",
@@ -871,7 +873,8 @@
       "badge": "Vm",
       "color": "#1ab7ea",
       "wide": false,
-      "copy": false
+      "copy": false,
+      "top": true
     },
     {
       "k": "LinkedIn",
@@ -881,7 +884,8 @@
       "badge": "in",
       "color": "#0a66c2",
       "wide": false,
-      "copy": false
+      "copy": false,
+      "top": true
     },
     {
       "k": "Pinterest",
@@ -891,7 +895,8 @@
       "badge": "Pn",
       "color": "#e60023",
       "wide": false,
-      "copy": false
+      "copy": false,
+      "top": false
     },
     {
       "k": "Email",
@@ -901,7 +906,8 @@
       "badge": "@",
       "color": "#e0a43a",
       "wide": true,
-      "copy": true
+      "copy": true,
+      "top": false
     },
     {
       "k": "Resume",
@@ -912,7 +918,8 @@
       "badge": "CV",
       "color": "#9e3e39",
       "wide": true,
-      "copy": false
+      "copy": false,
+      "top": false
     },
     {
       "k": "WhatsApp",
@@ -922,7 +929,8 @@
       "badge": "WA",
       "color": "#25d366",
       "wide": true,
-      "copy": false
+      "copy": false,
+      "top": false
     }
   ]
 }
