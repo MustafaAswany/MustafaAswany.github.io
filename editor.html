@@ -275,7 +275,7 @@ addEventListener("message", e => {
   const m = e.data || {};
   if (m.type === "aswany:ready") { pvReady = true; sendPreview(); pv.contentWindow.postMessage({type:"aswany:lang", lang: PLANG}, "*"); }
   if (m.type === "aswany:select" && m.sec) {
-    const map = {hero:"hero", band:"general", work:"work", clients:"clients", process:"process", journey:"journey", skills:"skills", contact:"contact"};
+    const map = {hero:"hero", band:"general", band2:"clients", work:"work", clients:"clients", process:"process", journey:"journey", skills:"skills", contact:"contact"};
     if (m.work != null) OPEN["work"] = m.work;
     openTab(map[m.sec] || "sections");
     if (m.work != null) setTimeout(() => { const el = document.querySelector(`[data-item="work.${m.work}"]`); el && el.scrollIntoView({block:"center", behavior:"smooth"}); }, 60);
@@ -377,7 +377,7 @@ const TABS = [
   ["general","General",'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'],
   ["publish","Publish",'<path d="M12 16V4m0 0-5 5m5-5 5 5M5 20h14"/>']
 ];
-const SEC_NAMES = {band:"Moving strip", work:"Selected work", clients:"Clients", process:"Process", journey:"Journey", skills:"Toolkit & skills", contact:"Contact"};
+const SEC_NAMES = {band:"Moving strip", band2:"Clients strip", work:"Selected work", clients:"Clients", process:"Process", journey:"Journey", skills:"Toolkit & skills", contact:"Contact"};
 const CAT_OPTS = () => (C.cats||[]).map(c => ({v:c.id, l:c.en}));
 
 const PANELS = {
@@ -434,7 +434,7 @@ const PANELS = {
     ${group("Section text", `${txt("Small label","e1")}${txt("Heading line 1","w1")}${txt("Heading line 2 (accent)","w2")}${txt("Intro","wP",{area:true,rows:2})}${txt("Vimeo button","allV")}${txt("Behance button","allB")}${field("Behance link","urls.behance")}`)}`,
 
   clients: () => `
-    <h2>Clients</h2><p class="lead">Brand names in the moving rows. Drag to reorder.</p>
+    <h2>Clients</h2><p class="lead">Brand names in the grey strip under the red one and in the Clients section. Drag to reorder.</p>
     ${group("Names", list("clients", {chips: (c,i) => `<input data-p="clients.${i}" value="${esc(c)}" size="${Math.max(4,String(c).length)}">`, add:true, addLabel:"Add client"}))}
     ${group("Section text", `${txt("Small label","e2")}${txt("Heading line 1","c1")}${txt("Heading line 2 (accent)","c2")}`)}`,
 
@@ -557,7 +557,7 @@ $("#panel").addEventListener("click", async e => {
   if (t.dataset.open) { const item = t.closest("[data-i]"); const i = +item.dataset.i; OPEN[t.dataset.open] = OPEN[t.dataset.open] === i ? null : i; renderPanel(); return; }
   if (t.dataset.drop) { pickImage(t.dataset.drop); return; }
   if (t.dataset.preset != null) { C.theme.colors = {...PRESETS[+t.dataset.preset].c}; changed({now:true}); renderPanel(); return; }
-  if (t.dataset.goto) { openTab({band:"general"}[t.dataset.goto] || t.dataset.goto); return; }
+  if (t.dataset.goto) { openTab({band:"general", band2:"clients"}[t.dataset.goto] || t.dataset.goto); return; }
   const act = t.dataset.act, path = t.dataset.list, i = +t.dataset.i;
   if (act) {
     const arr = get(path);

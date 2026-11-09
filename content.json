@@ -50,6 +50,10 @@
       "show": true
     },
     {
+      "id": "band2",
+      "show": true
+    },
+    {
       "id": "work",
       "show": true
     },
