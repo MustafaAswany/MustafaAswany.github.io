@@ -164,7 +164,8 @@
       "brand": "MUSTAFA ALASWANY",
       "brandShort": "ALASWANY",
       "sig": "— MUSTAFA ALASWANY",
-      "owner": "Mustafa Alaswany"
+      "owner": "Mustafa Alaswany",
+      "lkT": "Find me everywhere"
     },
     "ar": {
       "view": "شاهد",
@@ -223,7 +224,8 @@
       "brand": "مصطفى الأسواني",
       "brandShort": "الأسواني",
       "sig": "— مصطفى الأسواني",
-      "owner": "مصطفى الأسواني"
+      "owner": "مصطفى الأسواني",
+      "lkT": "تلاقيني في كل مكان"
     }
   },
   "cats": [
@@ -841,38 +843,85 @@
   ],
   "links": [
     {
-      "k": "Email",
-      "ka": "الإيميل",
-      "v": "Mu.Aswany@gmail.com",
-      "href": "",
-      "copy": true
-    },
-    {
-      "k": "WhatsApp",
-      "ka": "واتساب",
-      "v": "+20 155 745 5564",
-      "href": "https://wa.me/201557455564",
-      "copy": false
-    },
-    {
-      "k": "Vimeo",
-      "ka": "Vimeo",
-      "v": "vimeo.com/mustafaaswany",
-      "href": "https://vimeo.com/mustafaaswany",
+      "k": "CV & Portfolio",
+      "ka": "السي في والبورتفوليو",
+      "v": "Full portfolio · PDF",
+      "va": "البورتفوليو كامل · PDF",
+      "href": "https://drive.google.com/file/d/1NQ5fEfC9hJ9Qp-ZxPh5yEUNMHARC89-t/view?usp=sharing",
+      "badge": "PDF",
+      "color": "#d9544a",
+      "wide": true,
       "copy": false
     },
     {
       "k": "Behance",
       "ka": "Behance",
-      "v": "behance.net/MustafaAswany",
+      "v": "/MustafaAswany",
       "href": "https://www.behance.net/MustafaAswany",
+      "badge": "Be",
+      "color": "#1769ff",
+      "wide": false,
+      "copy": false
+    },
+    {
+      "k": "Vimeo",
+      "ka": "Vimeo",
+      "v": "/mustafaaswany",
+      "href": "https://vimeo.com/mustafaaswany/",
+      "badge": "Vm",
+      "color": "#1ab7ea",
+      "wide": false,
       "copy": false
     },
     {
       "k": "LinkedIn",
       "ka": "لينكدإن",
-      "v": "linkedin.com/in/mustafaaswany",
+      "v": "/in/mustafaaswany",
       "href": "https://www.linkedin.com/in/mustafaaswany/",
+      "badge": "in",
+      "color": "#0a66c2",
+      "wide": false,
+      "copy": false
+    },
+    {
+      "k": "Pinterest",
+      "ka": "Pinterest",
+      "v": "/MustafaAlaswany",
+      "href": "https://www.pinterest.com/MustafaAlaswany/",
+      "badge": "Pn",
+      "color": "#e60023",
+      "wide": false,
+      "copy": false
+    },
+    {
+      "k": "Email",
+      "ka": "الإيميل",
+      "v": "Mu.Aswany@gmail.com",
+      "href": "mailto:Mu.Aswany@gmail.com",
+      "badge": "@",
+      "color": "#e0a43a",
+      "wide": true,
+      "copy": true
+    },
+    {
+      "k": "Resume",
+      "ka": "السي في",
+      "v": "One page · PDF",
+      "va": "صفحة واحدة · PDF",
+      "href": "https://drive.google.com/file/d/1bAHAPv6e_vWSqQGU9kMeC7TXg8zTAj6i/view?usp=sharing",
+      "badge": "CV",
+      "color": "#9e3e39",
+      "wide": true,
+      "copy": false
+    },
+    {
+      "k": "WhatsApp",
+      "ka": "واتساب",
+      "v": "+20 155 745 5564",
+      "href": "https://api.whatsapp.com/send?phone=201557455564",
+      "badge": "WA",
+      "color": "#25d366",
+      "wide": true,
       "copy": false
     }
   ]
