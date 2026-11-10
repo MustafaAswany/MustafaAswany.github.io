@@ -304,7 +304,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;
 footer .brand svg{width:26px}
 
 /* build mode — agent cursors that place each layer */
-.build-layer{position:absolute;left:0;top:0;width:0;height:0;z-index:65;pointer-events:none;direction:ltr}
+.build-layer{position:absolute;left:0;top:0;width:100%;height:var(--doc-h,100vh);overflow:hidden;z-index:65;pointer-events:none;direction:ltr}
 .agent{position:absolute;left:0;top:0;will-change:transform;visibility:hidden}
 .agent svg{width:17px;height:21px;display:block;filter:drop-shadow(0 3px 6px rgba(0,0,0,.55))}
 .agent path{fill:var(--c);stroke:#fff;stroke-width:1.3;stroke-linejoin:round}
@@ -342,7 +342,51 @@ html[lang="ar"] .tour-cap h4{font-weight:800;line-height:1.3}
 .sel.tour{border-color:var(--hot);background:color-mix(in srgb,var(--hot) 6%,transparent)}
 .sel.tour i{border-color:var(--hot)} .sel.tour b{background:var(--hot)}
 .agent.guide span{background:var(--hot);color:#fff}
-@media (max-width:480px){.bbar .prog,.bbar .cnt,.bbar .sep{display:none}.bbar{font-size:10px;gap:8px}.tour-cap{bottom:calc(66px + env(safe-area-inset-bottom,0px))}}
+/* ---------- timeline (Premiere-style) ---------- */
+.tl{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:66;width:min(1000px,calc(100% - 28px));display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;padding:9px 10px 9px 9px;
+  background:color-mix(in srgb,#151212 90%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid #2e2725;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.5);direction:ltr;color:#cfc4c0;font-family:var(--mono);font-size:11px;transition:opacity .5s,transform .6s var(--ease)}
+.tl.gone{opacity:0;transform:translate(-50%,24px);pointer-events:none}
+.tl-ctrl{display:flex;align-items:center;gap:10px}
+.tl-play{width:42px;height:42px;border-radius:50%;background:var(--hot);color:#fff;display:grid;place-items:center;flex:none;transition:transform .3s var(--ease),filter .3s;box-shadow:0 0 0 0 color-mix(in srgb,var(--hot) 60%,transparent)}
+.tl-play:hover{transform:scale(1.06);filter:brightness(1.08)}
+.tl-play svg{width:14px;height:14px;fill:currentColor}
+.tl.playing .tl-play{animation:tlpulse 1.8s infinite}
+@keyframes tlpulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--hot) 55%,transparent)}100%{box-shadow:0 0 0 12px transparent}}
+.tl-tc{display:grid;gap:2px;min-width:104px}
+.tl-tc b{font-size:15px;font-weight:500;color:#fff;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.tl-tc span{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--hot);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px}
+.tl-mid{display:grid;grid-template-columns:22px minmax(0,1fr);gap:4px 6px;align-items:center;min-width:0}
+.tl-tag{font-size:9px;color:#7d716d;text-align:center;border:1px solid #2e2725;border-radius:4px;padding:2px 0;background:#1c1817}
+.tl-tag.sp{border:0;background:none}
+.tl-track{position:relative;grid-column:2;grid-row:1 / span 3;display:grid;grid-template-rows:14px 26px 12px;gap:4px;cursor:ew-resize;touch-action:none;user-select:none;outline:none}
+.tl-track:focus-visible{box-shadow:0 0 0 2px var(--hot);border-radius:6px}
+.tl-ruler{position:relative;border-bottom:1px solid #2e2725;background:repeating-linear-gradient(90deg,#4a403d 0 1px,transparent 1px var(--sec,20px)) left bottom / 100% 4px no-repeat}
+.tl-ruler span{position:absolute;top:0;font-size:8.5px;color:#7d716d;transform:translateX(3px)}
+.tl-ruler span::before{content:"";position:absolute;left:-3px;top:1px;width:1px;height:12px;background:#4a403d}
+.tl-clips{display:flex;gap:2px;min-width:0}
+.tl-clip{position:relative;min-width:0;border-radius:4px;background:color-mix(in srgb,var(--lc) 42%,#111);border-top:3px solid var(--lc);padding:3px 6px 0;font:600 10px/1.2 var(--body);color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:background .3s,box-shadow .3s;text-align:left}
+.tl-clip:hover{background:color-mix(in srgb,var(--lc) 60%,#111)}
+.tl-clip.on{background:color-mix(in srgb,var(--lc) 75%,#111);box-shadow:inset 0 0 0 1px rgba(255,255,255,.55)}
+.tl-wave{border-radius:3px;background:#173c22 center/100% 100% no-repeat;opacity:.95}
+.tl-head{position:absolute;top:-4px;bottom:-4px;left:0;width:0;pointer-events:none;will-change:transform}
+.tl-head::before{content:"";position:absolute;left:-1px;top:6px;bottom:0;width:2px;background:var(--hot);box-shadow:0 0 8px color-mix(in srgb,var(--hot) 70%,transparent)}
+.tl-head::after{content:"";position:absolute;left:-6px;top:0;width:12px;height:12px;background:var(--hot);clip-path:polygon(0 0,100% 0,100% 55%,50% 100%,0 55%)}
+.tl-side{display:flex;align-items:center;gap:6px}
+.tl-side button{height:30px;min-width:30px;padding:0 9px;border-radius:8px;border:1px solid #2e2725;color:#e9e1de;font:500 10.5px var(--mono);transition:border-color .3s,background .3s}
+.tl-side button:hover{border-color:var(--hot)}
+.tour-cap{bottom:calc(104px + env(safe-area-inset-bottom,0px))}
+html.preview .tl{display:none!important}
+@media (max-width:760px){
+  .tl{grid-template-columns:auto minmax(0,1fr) auto;gap:10px;padding:7px 8px 7px 7px;border-radius:14px}
+  .tl-play{width:38px;height:38px}
+  .tl-tc{min-width:0}.tl-tc b{font-size:12.5px}.tl-tc span{display:none}
+  .tl-mid{grid-template-columns:minmax(0,1fr)}.tl-tag{display:none}
+  .tl-track{grid-column:1;grid-template-rows:22px;}
+  .tl-ruler,.tl-wave{display:none}
+  .tl-clip{font-size:0;padding:0;border-top-width:3px}
+  #bSkip,#bSpeed{display:none}
+  .tour-cap{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+}
 
 [data-sec][hidden]{display:none!important}
 .no-grain .grain{display:none}
@@ -513,15 +557,27 @@ html.preview .bbar,html.preview .loader,html.preview .follow{display:none!import
   </div>
 </footer>
 
-<div class="bbar gone" id="bbar" aria-live="polite">
-  <span class="dots" aria-hidden="true"><i style="background:#5b9dff"></i><i style="background:#e25a4f"></i><i style="background:#f2b84b"></i></span>
-  <span class="cnt" id="bCnt">3 agents · <b id="bDone">0</b> / <b id="bTot">0</b> layers</span>
-  <span class="prog" aria-hidden="true"><u id="bProg"></u></span>
-  <button type="button" id="bSkip" data-i="skip">Skip build</button>
-  <span class="sep" aria-hidden="true"></span>
-  <button type="button" class="bt" id="bTour"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1v8l7-4z"/></svg><span id="bTourL">Tour</span></button>
-  <button type="button" class="ix" id="bSpeed" title="Tour speed">1×</button>
-  <button type="button" class="ix" id="bClose" aria-label="Hide this bar">×</button>
+<div class="tl gone" id="bbar" role="group" aria-label="Site timeline">
+  <div class="tl-ctrl">
+    <button type="button" class="tl-play" id="tlPlay" aria-label="Play the tour"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 1v8l7-4z"/></svg></button>
+    <div class="tl-tc"><b id="tlTC">00:00:00:00</b><span id="tlLbl">Intro</span></div>
+  </div>
+  <div class="tl-mid">
+    <span class="tl-tag sp"></span>
+    <div class="tl-track" id="tlTrack" role="slider" tabindex="0" aria-label="Scrub through the site" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="tl-ruler" id="tlRuler"></div>
+      <div class="tl-clips" id="tlClips"></div>
+      <div class="tl-wave" id="tlWave"></div>
+      <div class="tl-head" id="tlHead"></div>
+    </div>
+    <span class="tl-tag">V1</span>
+    <span class="tl-tag">A1</span>
+  </div>
+  <div class="tl-side">
+    <button type="button" id="bSkip" data-i="skip">Skip build</button>
+    <button type="button" id="bSpeed" title="Playback speed">1×</button>
+    <button type="button" id="bClose" aria-label="Hide the timeline">×</button>
+  </div>
 </div>
 <div class="tour-cap" id="tourCap" aria-live="polite"><div class="tc-n"><span id="tcN">01 / 08</span><span class="tc-bar"><i id="tcBar"></i></span><span id="tcS"></span></div><h4 id="tcT"></h4><p id="tcP"></p></div>
 <script type="application/json" id="content-default">{"version":1,"theme":{"colors":{"ink":"#0d0b0b","panel":"#191514","line":"#2c2523","fg":"#f5efed","muted":"#a3958f","dim":"#5e5350","brand":"#9e3e39","hot":"#d9544a"},"fonts":{"display":{"name":"Bebas Neue","spec":"Bebas+Neue"},"body":{"name":"Manrope","spec":"Manrope:wght@400;500;600;700"},"mono":{"name":"JetBrains Mono","spec":"JetBrains+Mono:wght@400;500"},"arDisplay":{"name":"Alexandria","spec":"Alexandria:wght@400;600;800;900"},"arBody":{"name":"IBM Plex Sans Arabic","spec":"IBM+Plex+Sans+Arabic:wght@400;500;600"}},"radius":4,"headingScale":1,"effects":{"loader":true,"agents":true,"grain":true,"smooth":true,"cursor":true,"marquee":true}},"sections":[{"id":"band","show":true},{"id":"band2","show":true},{"id":"work","show":true},{"id":"clients","show":true},{"id":"process","show":true},{"id":"journey","show":true},{"id":"skills","show":true},{"id":"contact","show":true}],"hero":{"photo":"img/photo-new.webp","stats":[{"n":10,"suf":"+","en":"Years designing & animating","ar":"سنين في التصميم والتحريك"},{"n":50,"suf":"+","en":"Brands, from Pfizer to Udacity","ar":"براند، من Pfizer لـ Udacity"},{"n":400,"suf":"+","en":"Videos & motion pieces published","ar":"فيديو وعمل موشن منشور"}]},"urls":{"vimeo":"https://vimeo.com/mustafaaswany","behance":"https://www.behance.net/MustafaAswany","resume":"https://drive.google.com/uc?export=download&id=1bAHAPv6e_vWSqQGU9kMeC7TXg8zTAj6i"},"text":{"en":{"view":"View","nWork":"Work","nClients":"Clients","nProcess":"Process","nJourney":"Journey","nContact":"Contact","talk":"Let's talk","hello":"Hello, I'm","first":"Mustafa","last":"Alaswany.","role":"Multimedia designer","role2":"Graphic · Motion · Video","bio":"I design brands and make them move: motion graphics, video and identities for healthcare, tech and food brands across Egypt and the Gulf, since 2016.","seeWork":"See the work","resume":"Download Resume","vimeo":"Watch on Vimeo","scroll":"Scroll","e1":"Selected work · 2019 — 2026","w1":"Work that","w2":"moves.","wP":"Motion graphics, video and identity work. Videos open on Vimeo, design projects on Behance.","allV":"All 37 videos on Vimeo","allB":"Design projects on Behance","e2":"Clients & brands","c1":"Part of the","c2":"bigger picture.","e3":"How I work","p1":"From brief","p2":"to final","p3":"frame.","pP":"Every piece goes through the same five cuts. It keeps the story clear and the deadline safe.","q":"“Design is how it looks. Motion is how it feels. I care about both.”","e4":"The journey","j1":"Keep moving.","j2":"Keep making.","jP":"Ten years across agencies, pharma events, ed-tech and e-commerce.","e5":"Toolkit","k1":"Tools of","k2":"the trade.","e6":"Your next story","b1":"Let's start","b2":"a new story!","cP":"Have a launch, an event or a brand that needs to move? Send me the brief and I'll get back to you within a day.","city":"Cairo, Egypt","top":"Back to top ↑","watch":"Watch","see":"View","skip":"Skip build","copy":"Copy","copied":"Copied","now":"Now","all":"All","giant":"PORTFOLIO","brand":"MUSTAFA ALASWANY","brandShort":"ALASWANY","sig":"— MUSTAFA ALASWANY","owner":"Mustafa Alaswany","lkT":"Find me everywhere"},"ar":{"view":"شاهد","nWork":"الأعمال","nClients":"العملاء","nProcess":"طريقتي","nJourney":"المسيرة","nContact":"تواصل","talk":"يلا نشتغل","hello":"أهلاً، أنا","first":"مصطفى","last":"الأسواني.","role":"مصمم ملتيميديا","role2":"جرافيك · موشن · فيديو","bio":"بصمم هويات وبحرّكها: موشن جرافيك وفيديو وهويات بصرية لبراندات في الصحة والتكنولوجيا والأكل في مصر والخليج، من 2016.","seeWork":"شوف الأعمال","resume":"حمّل السي في","vimeo":"شاهد على Vimeo","scroll":"انزل","e1":"أعمال مختارة · 2019 — 2026","w1":"أعمال","w2":"بتتحرك.","wP":"موشن جرافيك وفيديو وهويات بصرية. الفيديوهات بتفتح على Vimeo، والتصميمات على Behance.","allV":"الـ 37 فيديو على Vimeo","allB":"مشاريع التصميم على Behance","e2":"العملاء والبراندات","c1":"جزء من","c2":"الصورة الأكبر.","e3":"طريقتي في الشغل","p1":"من البريف","p2":"لحد آخر","p3":"فريم.","pP":"كل شغل بيعدّي على نفس الخمس مراحل، عشان القصة تفضل واضحة والميعاد مايتأخرش.","q":"«التصميم هو شكل الحاجة، والموشن هو إحساسها. وأنا بهتم بالاتنين.»","e4":"المسيرة","j1":"دايماً بتحرك.","j2":"ودايماً بعمل.","jP":"عشر سنين بين وكالات، وفعاليات أدوية، وتعليم أونلاين، وتجارة إلكترونية.","e5":"أدواتي","k1":"أدوات","k2":"الشغل.","e6":"قصتك الجاية","b1":"يلا نبدأ","b2":"قصة جديدة!","cP":"عندك إطلاق منتج أو فعالية أو براند محتاج يتحرك؟ ابعتلي البريف وهرد عليك خلال يوم.","city":"القاهرة، مصر","top":"لفوق ↑","watch":"شاهد","see":"افتح","skip":"تخطي البناء","copy":"نسخ","copied":"اتنسخ","now":"حالياً","all":"الكل","giant":"أعمالي","brand":"مصطفى الأسواني","brandShort":"الأسواني","sig":"— مصطفى الأسواني","owner":"مصطفى الأسواني","lkT":"تلاقيني في كل مكان"}},"cats":[{"id":"motion","en":"Motion","ar":"موشن"},{"id":"video","en":"Video","ar":"فيديو"},{"id":"events","en":"Events","ar":"فعاليات"},{"id":"brand","en":"Branding","ar":"هوية"},{"id":"social","en":"Social","ar":"سوشيال"},{"id":"digital","en":"Digital & 3D","ar":"ديجيتال و3D"}],"band":[{"en":"Motion graphics","ar":"موشن جرافيك"},{"en":"Video editing","ar":"مونتاج فيديو"},{"en":"Brand identity","ar":"هوية بصرية"},{"en":"2D animation","ar":"أنيميشن 2D"},{"en":"Social content","ar":"محتوى سوشيال"},{"en":"Logo animation","ar":"تحريك شعارات"},{"en":"Event visuals","ar":"تصميم فعاليات"}],"work":[{"img":"img/v-dillx-infographic.webp","cat":"motion","size":"w8","t":"Startup Success Guide","c":"DillX","y":2024,"en":"Infographic explainer on venture-backed startups","ar":"فيديو إنفوجرافيك عن الشركات الناشئة المموّلة","url":"https://vimeo.com/979469259","video":true,"show":true},{"img":"img/v-astrazeneca.webp","cat":"motion","size":"w4","t":"Nesmet Hawa","c":"AstraZeneca","y":2024,"en":"Character-led awareness video","ar":"فيديو توعوي بشخصيات متحركة","url":"https://vimeo.com/985280937","video":true,"show":true},{"img":"img/e-mbrace.webp","cat":"events","size":"w8","t":"MBrace campaign","c":"Merck & Glucovance","y":2020,"en":"Campaign visuals, booth walls and a virtual dresser","ar":"حملة كاملة: حوائط البوث وتجربة Virtual dresser","url":"https://www.behance.net/MustafaAswany","video":false,"show":true},{"img":"img/b-bzar.webp","cat":"brand","size":"w4","t":"B'ZAR van","c":"B'ZAR","y":2025,"en":"Vehicle branding for a Saudi restaurant","ar":"هوية سيارة توصيل لمطعم سعودي","url":"https://www.behance.net/gallery/235357211","video":false,"show":true},{"img":"img/v-menarini.webp","cat":"video","size":"w6","t":"Pulse · Together we thunder","c":"Menarini","y":2024,"en":"Event opener for the cycle meeting in Istanbul","ar":"افتتاحية الاجتماع الدوري في إسطنبول","url":"https://vimeo.com/953064659","video":true,"show":true},{"img":"img/e-ryzeup.webp","cat":"events","size":"w6","t":"RyzeUp · Second wave","c":"Novo Nordisk","y":2021,"en":"Event branding and video coverage, Sofitel El Gezira","ar":"هوية الفعالية وتغطيتها بالفيديو في سوفيتيل الجزيرة","url":"https://vimeo.com/505698160","video":true,"show":true},{"img":"img/b-decoupes.webp","cat":"brand","size":"w4","t":"Découpes identity","c":"Découpes by Emy","y":2025,"en":"Logo, labels and stationery for a fashion label","ar":"شعار وبطاقات وهوية لبراند أزياء","url":"https://www.behance.net/gallery/234226531","video":false,"show":true},{"img":"img/v-netriders.webp","cat":"video","size":"w4","t":"Sec+ campaign","c":"NetRiders","y":2025,"en":"Editing and motion for a security course","ar":"مونتاج وموشن لكورس أمن سيبراني","url":"https://vimeo.com/1128915323","video":true,"show":true},{"img":"img/e-heartquiz.webp","cat":"digital","size":"w4","t":"Heart Song Quiz","c":"Eventy","y":2020,"en":"Interactive game played by doctors at pharma events","ar":"لعبة تفاعلية للدكاترة في فعاليات الأدوية","url":"https://vimeo.com/406775686/eeabc072c3","video":true,"show":true},{"img":"img/e-mycsa.webp","cat":"events","size":"w6","t":"MyCSA · The missing links","c":"Gilead","y":2020,"en":"Event identity for the Mycology Club in Saudi Arabia","ar":"هوية فعالية نادي الفطريات في السعودية","url":"https://www.behance.net/MustafaAswany","video":false,"show":true},{"img":"img/e-masterchef.webp","cat":"events","size":"w6","t":"MasterChef Diabetes","c":"AstraZeneca","y":2019,"en":"Stage, roll-ups and promo for a Kuwait event","ar":"مسرح ورول أب وبرومو لفعالية في الكويت","url":"https://vimeo.com/505787705","video":true,"show":true},{"img":"img/b-dillx-social.webp","cat":"social","size":"w4","t":"Social media designs","c":"DillX","y":2024,"en":"Bilingual posts and campaign visuals","ar":"بوستات وحملات بالعربي والإنجليزي","url":"https://www.behance.net/gallery/195620785","video":false,"show":true},{"img":"img/v-nextcare.webp","cat":"motion","size":"w4","t":"App guide","c":"Nextcare","y":2023,"en":"Animated walkthrough of the Nextcare app","ar":"شرح متحرك لتطبيق Nextcare","url":"https://vimeo.com/865548793","video":true,"show":true},{"img":"img/v-whiteboard.webp","cat":"motion","size":"w4","t":"Programming, explained","c":"Whiteboard","y":2024,"en":"Arabic whiteboard animation","ar":"وايت بورد أنيميشن بالعربي لشرح البرمجة","url":"https://vimeo.com/968180340","video":true,"show":true},{"img":"img/b-udacity3d.webp","cat":"digital","size":"w6","t":"3D room","c":"Udacity","y":2023,"en":"Isometric 3D set for course content","ar":"غرفة 3D لمحتوى الكورسات","url":"https://www.behance.net/gallery/199539611","video":false,"show":true},{"img":"img/v-windenergy.webp","cat":"motion","size":"w6","t":"Logo animation","c":"Wind Energy","y":2023,"en":"Logo reveal with a turning blade","ar":"تحريك شعار بريشة توربين","url":"https://vimeo.com/852223728","video":true,"show":true},{"img":"img/b-diva.webp","cat":"brand","size":"w4","t":"Dazzling Diva","c":"Diva","y":2021,"en":"Jewellery brand identity","ar":"هوية براند مجوهرات","url":"https://www.behance.net/gallery/113978455","video":false,"show":true},{"img":"img/v-barukas.webp","cat":"social","size":"w4","t":"Barukas reel","c":"Barukas","y":2023,"en":"Instagram & TikTok ad reel","ar":"ريل إعلاني لإنستجرام وتيك توك","url":"https://vimeo.com/738558543","video":true,"show":true},{"img":"img/v-restaurant.webp","cat":"motion","size":"w4","t":"Restaurant ad","c":"Delivery","y":2021,"en":"2D ad animation for food delivery","ar":"إعلان موشن 2D لتوصيل الأكل","url":"https://vimeo.com/507185049","video":true,"show":true}],"clients":["Merck","Novo Nordisk","Udacity","Gilead","Sanofi","Pfizer","Hikma","AbbVie","AstraZeneca","Amgen","Abbott","P&G","Menarini","Nextcare","DillX","Masar","Volaris","Neesh","PastaU","Deboned","Cadulli"],"steps":[{"en":{"t":"The brief","d":"Understand the message, the audience, and where the piece will play: feed, stage screen or inbox."},"ar":{"t":"البريف","d":"أفهم الرسالة والجمهور، والمكان اللي هيتعرض فيه الشغل: فيد، شاشة مسرح، أو إيميل."}},{"en":{"t":"Script & storyboard","d":"Lock the story and timing before the first keyframe, so revisions stay small."},"ar":{"t":"السكريبت والستوري بورد","d":"أقفل القصة والتوقيت قبل أول كي فريم، عشان التعديلات تبقى بسيطة."}},{"en":{"t":"Styleframes","d":"Design key frames in the brand's type, colour and tone, and agree on the look."},"ar":{"t":"الستايل فريمز","d":"أصمم الفريمات الأساسية بخطوط وألوان وروح البراند، ونتفق على الشكل."}},{"en":{"t":"Animate & edit","d":"Build the motion in After Effects, cut to voiceover and music in Premiere, refine the rhythm."},"ar":{"t":"التحريك والمونتاج","d":"أبني الموشن على After Effects، وأقطع على الفويس أوفر والمزيكا في Premiere، وأظبط الإيقاع."}},{"en":{"t":"Sound & delivery","d":"Clean the audio, grade, and export every size the platforms need."},"ar":{"t":"الصوت والتسليم","d":"أنضف الصوت وأعمل الجريد، وأطلّع كل المقاسات اللي المنصات محتاجاها."}}],"jobs":[{"w":"01/2026 — Now","now":true,"en":{"role":"Multimedia Specialist","co":"Acorn Strategy & Indigo agency"},"ar":{"role":"أخصائي ملتيميديا","co":"Acorn Strategy & Indigo agency"}},{"w":"12/2024 — Now","now":true,"en":{"role":"Multimedia Designer","co":"Qwarer Zahab & Cadulli"},"ar":{"role":"مصمم ملتيميديا","co":"Qwarer Zahab & Cadulli"}},{"w":"07/2024 — 12/2024","now":false,"en":{"role":"Multimedia Designer","co":"Neesh Group · Deboned & PastaU (KW & BH)"},"ar":{"role":"مصمم ملتيميديا","co":"Neesh Group · Deboned & PastaU (الكويت والبحرين)"}},{"w":"10/2023 — 07/2024","now":false,"en":{"role":"Multimedia Designer","co":"DillX"},"ar":{"role":"مصمم ملتيميديا","co":"DillX"}},{"w":"09/2022 — 07/2023","now":false,"en":{"role":"Video Designer","co":"Udacity"},"ar":{"role":"مصمم فيديو","co":"Udacity"}},{"w":"04/2022 — 10/2022","now":false,"en":{"role":"Multimedia Designer","co":"Estshara"},"ar":{"role":"مصمم ملتيميديا","co":"Estshara"}},{"w":"03/2021 — Now","now":true,"en":{"role":"Multimedia Designer","co":"Freelancer.com"},"ar":{"role":"مصمم ملتيميديا","co":"Freelancer.com"}},{"w":"07/2019 — 03/2021","now":false,"en":{"role":"Multimedia Designer","co":"Eventy LLC (Volaris)"},"ar":{"role":"مصمم ملتيميديا","co":"Eventy LLC (Volaris)"}},{"w":"2016 — 2019","now":false,"en":{"role":"Graphic & Video Designer","co":"Freelance"},"ar":{"role":"مصمم جرافيك وفيديو","co":"فريلانس"}}],"edu":[{"label":{"en":"Education","ar":"التعليم"},"title":{"en":"Bachelor of Management Information Systems","ar":"بكالوريوس نظم المعلومات الإدارية"},"meta":"EGI Institute · 2017 — 2021"},{"label":{"en":"Course","ar":"كورس"},"title":{"en":"Motion graphics, Motion Camp","ar":"موشن جرافيك، Motion Camp"},"meta":"2020"},{"label":{"en":"Scholarship","ar":"منحة"},"title":{"en":"Udacity Developer Challenge: front-end & Android","ar":"منحة Udacity للمطورين: فرونت إند وأندرويد"},"meta":"2017 — 2018"}],"apps":[{"l":"Ps","c":"#31a8ff","t":"Photoshop"},{"l":"Ai","c":"#ff9a00","t":"Illustrator"},{"l":"Id","c":"#ff3366","t":"InDesign"},{"l":"Ae","c":"#9999ff","t":"After Effects"},{"l":"Pr","c":"#9999ff","t":"Premiere Pro"},{"l":"Au","c":"#00e4bb","t":"Audition"}],"skills":[{"en":"Motion graphics","ar":"موشن جرافيك"},{"en":"2D animation","ar":"أنيميشن 2D"},{"en":"Logo animation","ar":"تحريك الشعارات"},{"en":"Video editing","ar":"مونتاج فيديو"},{"en":"Brand identity","ar":"هوية بصرية"},{"en":"Social media design","ar":"تصميم سوشيال ميديا"},{"en":"Event branding","ar":"هوية الفعاليات"},{"en":"HTML email campaigns","ar":"حملات إيميل HTML"},{"en":"Whiteboard animation","ar":"وايت بورد أنيميشن"},{"en":"AI-assisted visuals","ar":"تصميم بالذكاء الاصطناعي"},{"en":"UI/UX basics","ar":"أساسيات UI/UX"},{"en":"Drawing","ar":"رسم"}],"links":[{"k":"CV & Portfolio","ka":"السي في والبورتفوليو","v":"Full portfolio · PDF","va":"البورتفوليو كامل · PDF","href":"https://drive.google.com/file/d/1NQ5fEfC9hJ9Qp-ZxPh5yEUNMHARC89-t/view?usp=sharing","badge":"PDF","color":"#d9544a","wide":true,"copy":false,"top":false},{"k":"Behance","ka":"Behance","v":"/MustafaAswany","href":"https://www.behance.net/MustafaAswany","badge":"Be","color":"#1769ff","wide":false,"copy":false,"top":true},{"k":"Vimeo","ka":"Vimeo","v":"/mustafaaswany","href":"https://vimeo.com/mustafaaswany/","badge":"Vm","color":"#1ab7ea","wide":false,"copy":false,"top":true},{"k":"LinkedIn","ka":"لينكدإن","v":"/in/mustafaaswany","href":"https://www.linkedin.com/in/mustafaaswany/","badge":"in","color":"#0a66c2","wide":false,"copy":false,"top":true},{"k":"Pinterest","ka":"Pinterest","v":"/MustafaAlaswany","href":"https://www.pinterest.com/MustafaAlaswany/","badge":"Pn","color":"#e60023","wide":false,"copy":false,"top":false},{"k":"Email","ka":"الإيميل","v":"Mu.Aswany@gmail.com","href":"mailto:Mu.Aswany@gmail.com","badge":"@","color":"#e0a43a","wide":true,"copy":true,"top":false},{"k":"Resume","ka":"السي في","v":"One page · PDF","va":"صفحة واحدة · PDF","href":"https://drive.google.com/file/d/1bAHAPv6e_vWSqQGU9kMeC7TXg8zTAj6i/view?usp=sharing","badge":"CV","color":"#9e3e39","wide":true,"copy":false,"top":false},{"k":"WhatsApp","ka":"واتساب","v":"+20 155 745 5564","href":"https://api.whatsapp.com/send?phone=201557455564","badge":"WA","color":"#25d366","wide":true,"copy":false,"top":false}]}</script>
@@ -647,7 +703,7 @@ function setLang(l){
   if (!PREVIEW) try { localStorage.setItem("aswany-lang", l); } catch(_) {}
   render();
   if (window.ScrollTrigger) { setupMotion(true); ScrollTrigger.refresh(); }
-  if (typeof T_ !== "undefined") $("#bTourL").textContent = T_.on ? tt("stop") : tt("tour");
+  if (typeof TL !== "undefined") setTimeout(buildChapters, 60);
 }
 document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.l)));
 
@@ -800,7 +856,7 @@ function makeAgents(){
     B.agents.push({el, busy:false, idle:null});
   });
 }
-function count(){ $("#bDone").textContent = B.done; $("#bTot").textContent = B.total; gsap.to("#bProg", {scaleX: B.total ? B.done/B.total : 0, duration:.4}); if (B.total && B.done >= B.total) setTimeout(() => { $("#bSkip").hidden = true; }, 900); }
+function count(){ if (B.total && B.done >= B.total) setTimeout(() => { $("#bSkip").hidden = true; }, 900); }
 
 function reveal(el, instant){
   if (el.dataset.built) return; el.dataset.built = "1"; B.done++; count();
@@ -819,13 +875,15 @@ function reveal(el, instant){
   }
 }
 
+function sizeLayer(){ if (B.layer) B.layer.style.setProperty("--doc-h", document.documentElement.scrollHeight + "px"); }
+addEventListener("resize", () => setTimeout(sizeLayer, 250));
 function pump(){ B.agents.forEach(a => { if (!a.busy && B.queue.length) run(a, B.queue.shift()); }); }
-function enqueue(task){ if (typeof T_ !== "undefined" && T_.on) { if (!task.trace) reveal(task.el); return; } B.queue.push(task); if (SMALL) while (B.queue.length > 2) B.queue.shift(); pump(); }
+function enqueue(task){ if (typeof TL !== "undefined" && (TL.playing || TL.scrub)) { if (!task.trace) reveal(task.el); return; } B.queue.push(task); if (SMALL) while (B.queue.length > 2) B.queue.shift(); pump(); }
 
 function run(a, task){
   const el = task.el, r = el.getBoundingClientRect();
   if (!B.on || !r.width || r.bottom < -80 || r.top > innerHeight + 80) { if (!task.trace) reveal(el, true); return pump(); }
-  a.busy = true; clearTimeout(a.idle);
+  a.busy = true; clearTimeout(a.idle); sizeLayer();
   const X = r.left + scrollX, Y = r.top + scrollY, W = r.width, H = r.height;
   const k = (B.queue.length > 5 ? .45 : B.queue.length > 2 ? .7 : 1) * (SMALL ? .65 : 1);   // catch up when layers wait; snappier on phones
   const box = document.createElement("div"); box.className = "sel"; box.innerHTML = "<i></i><i></i><i></i><i></i><b>0 × 0</b>";
@@ -846,7 +904,7 @@ function setupBuild(rebuild){
   const targets = [...document.querySelectorAll(BUILD_SEL)];
   if (rebuild) { targets.forEach(el => { el.dataset.built = "1"; gsap.set(el, {autoAlpha:1}); }); return; }
   if (!B.on || RM) {           // reduced motion or build skipped: quick fade-ins, no agents
-    $("#bSkip").hidden = true; $("#bCnt").hidden = true; $(".bbar .prog").hidden = true; $(".bbar .dots").hidden = true;
+    $("#bSkip").hidden = true;
     targets.forEach(el => { gsap.set(el, {autoAlpha:0}); ScrollTrigger.create({trigger:el, start:"top 96%", once:true, onEnter(){ B.done--; reveal(el); }}); });
     return;
   }
@@ -862,7 +920,7 @@ $("#bSkip").addEventListener("click", () => {
   document.querySelectorAll(BUILD_SEL).forEach(el => reveal(el, true));
   B.agents.forEach(a => gsap.to(a.el, {autoAlpha:0, duration:.3}));
   document.querySelectorAll(".sel:not(.tour)").forEach(x => x.remove());
-  $("#bSkip").hidden = true; $("#bCnt").hidden = true; $(".bbar .prog").hidden = true; $(".bbar .dots").hidden = true;
+  $("#bSkip").hidden = true;
 });
 
 /* =========================== TOUR =========================== */
@@ -896,16 +954,8 @@ function tourLayer(){
     g.innerHTML = `<svg viewBox="0 0 17 21"><path d="M1.5 1.5v15.2l4-3.9 2.9 6.6 3-1.3-2.9-6.5h5.7z"/></svg><span></span>`;
     B.layer.appendChild(g); T_.guide = g; gsap.set(g, {x: innerWidth/2, y: scrollY + innerHeight*.6, autoAlpha:0});
   }
-  T_.guide.querySelector("span").textContent = tt("tour");
+  sizeLayer(); T_.guide.querySelector("span").textContent = tt("tour");
   T_.guide.style.setProperty("--c", getComputedStyle(document.documentElement).getPropertyValue("--hot").trim() || "#d9544a");
-}
-function scrollToEl(el, block){
-  const r = el.getBoundingClientRect(), y = scrollY + r.top - (block === "center" ? (innerHeight - r.height) / 2 : 90);
-  const dur = 1.7 / T_.speed;
-  if (lenis) lenis.scrollTo(Math.max(0,y), {duration: dur, force: true});
-  else if (window.gsap) { const o = {y: scrollY}; gsap.to(o, {y: Math.max(0,y), duration: dur, ease:"power3.inOut", onUpdate:() => scrollTo(0, o.y)}); }
-  else scrollTo({top: y, behavior: "smooth"});
-  return dur * 1000;
 }
 async function focusOn(el, id){
   if (!el || T_.id !== id) return;
@@ -923,7 +973,7 @@ async function focusOn(el, id){
   gsap.to(T_.guide, {x:X+W, y:Y+H, duration:.65 / T_.speed, ease:"power2.inOut"});
   await tw(sz, {w:W, h:H, duration:.65, ease:"power2.inOut", onUpdate(){ box.style.width = sz.w+"px"; box.style.height = sz.h+"px"; lbl.textContent = `${Math.round(sz.w)} × ${Math.round(sz.h)}`; }}, id);
   if (el.classList && el.classList.contains("card")) { fol.textContent = el.dataset.f; }
-  await wait(900, id);
+  await wait(700, id);
   gsap.to(box, {autoAlpha:0, duration:.35 / T_.speed});
 }
 function caption(i, n, step){
@@ -933,49 +983,118 @@ function caption(i, n, step){
   $("#tourCap").classList.add("on");
   gsap.fromTo("#tcBar", {scaleX:0}, {scaleX:1, duration:4.6 / T_.speed, ease:"none"});
 }
-async function startTour(){
-  if (T_.on) return stopTour();
-  const id = ++T_.id; T_.on = true;
-  $("#bTour").classList.add("on"); $("#bTourL").textContent = tt("stop");
-  $("#bTour").querySelector("svg").innerHTML = '<rect x="1.5" y="1.5" width="7" height="7" rx="1"/>';
-  tourLayer(); B.queue.length = 0;
-  const steps = tourSteps();
-  for (let i = 0; i < steps.length; i++) {
-    if (T_.id !== id) return;
-    const st = steps[i], secEl = document.querySelector(st.scrollTo || `[data-sec="${st.sec === "band2" && !document.querySelector('[data-sec="band2"]:not([hidden])') ? "band" : st.sec}"]`);
-    if (!secEl) continue;
-    $("#tourCap").classList.remove("on");
-    const ms = scrollToEl(secEl, st.block);
-    // place everything in this section now, so the camera never lands on an empty stage
-    const secRoot = document.querySelector(`[data-sec="${st.sec}"]`) || secEl;
-    setTimeout(() => { if (T_.id === id) [secRoot, ...secRoot.querySelectorAll("*")].forEach(n => { if (n.matches && n.matches(BUILD_SEL) && !n.dataset.built) reveal(n); }); }, Math.max(0, ms - 500));
-    if (!(await wait(ms + 150, id))) return;
-    caption(i, steps.length, st);
-    for (const sel of st.focus) { await focusOn(document.querySelector(sel), id); if (T_.id !== id) return; }
-    if (!(await wait(900, id))) return;
+/* ---------- timeline player ---------- */
+const TL = {chapters:[], total:0, t:0, playing:false, scrub:false, cur:-1, last:performance.now(), ready:false};
+const LC = ["#8f74d9","#5f86d6","#2bb39b","#c98ac8","#2f9bd0","#62a852","#d9688d","#e08f3a"];
+const DUR = {hero:7, work:11, clients:6, process:9, journey:8, skills:6, contact:7};
+const HOLD = .42, FPS = 25;
+const easeIO = x => x < .5 ? 2*x*x : 1 - Math.pow(-2*x + 2, 2) / 2;
+const invEase = p => p < .5 ? Math.sqrt(p/2) : 1 - Math.sqrt(2*(1-p)) / 2;
+function buildChapters(){
+  const steps = tourSteps().filter(s => s.sec !== "band2");
+  const maxY = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+  const ch = steps.map(s => { const el = document.querySelector(`[data-sec="${s.sec}"]`); const top = s.sec === "hero" ? 0 : Math.min(maxY, Math.max(0, el.getBoundingClientRect().top + scrollY - 70)); return {...s, top, dur: DUR[s.sec] || 6}; }).sort((a,b) => a.top - b.top);
+  let t = 0; ch.forEach((c,i) => { c.t0 = t; t += c.dur; c.end = i < ch.length-1 ? ch[i+1].top : maxY; c.color = LC[i % LC.length]; });
+  TL.chapters = ch; TL.total = t; TL.ready = ch.length > 0;
+  $("#tlClips").innerHTML = ch.map((c,i) => `<button type="button" class="tl-clip" data-ch="${i}" style="flex:${c.dur};--lc:${c.color}" title="${esc(tt(c.k))}">${esc(tt(c.k))}</button>`).join("");
+  const w = $("#tlTrack").clientWidth || 600; const sec = w / (TL.total || 1);
+  $("#tlRuler").style.setProperty("--sec", sec + "px");
+  $("#tlRuler").innerHTML = Array.from({length: Math.floor(TL.total/10)+1}, (_,i) => `<span style="left:${(i*10/TL.total)*100}%">00:${String(i*10).padStart(2,"0")}</span>`).join("");
+  if (!$("#tlWave").style.backgroundImage) {
+    let bars = ""; for (let i = 0; i < 160; i++) { const h = 2 + Math.abs(Math.sin(i*.37) * Math.cos(i*.11) + Math.sin(i*1.7)*.35) * 9; bars += `<rect x="${i*4}" y="${(24-h)/2}" width="2.4" height="${h}" fill="%2357c26f"/>`; }
+    $("#tlWave").style.backgroundImage = `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 24" preserveAspectRatio="none">${bars}</svg>')`;
   }
-  if (T_.id !== id) return;
-  $("#tcN").textContent = "✓"; $("#tcS").textContent = ""; $("#tcT").textContent = tt("end"); $("#tcP").textContent = "";
-  gsap.to(T_.guide, {autoAlpha:0, duration:.4});
-  await wait(2600, id);
-  if (T_.id === id) stopTour();
+  TL.cur = -1;
 }
-function stopTour(){
-  T_.id++; T_.on = false;
-  $("#bTour").classList.remove("on"); $("#bTourL").textContent = tt("tour");
-  $("#bTour").querySelector("svg").innerHTML = '<path d="M1.5 1v8l7-4z"/>';
-  $("#tourCap").classList.remove("on");
+const chAt = t => { const ch = TL.chapters; for (let i = ch.length-1; i >= 0; i--) if (t >= ch[i].t0) return i; return 0; };
+function yAt(t){ const c = TL.chapters[chAt(t)]; const u = Math.min(1, (t - c.t0) / c.dur); const p = u < HOLD ? 0 : easeIO((u - HOLD) / (1 - HOLD)); return c.top + p * (c.end - c.top); }
+function tAt(y){
+  const ch = TL.chapters; let i = 0; for (let k = ch.length-1; k >= 0; k--) if (y >= ch[k].top - 1) { i = k; break; }
+  const c = ch[i], span = c.end - c.top; const p = span > 0 ? Math.min(1, Math.max(0, (y - c.top) / span)) : 0;
+  if (i === ch.length-1 && y >= c.end - 2) return TL.total;
+  return c.t0 + (p <= .002 ? 0 : HOLD + (1 - HOLD) * invEase(p)) * c.dur;
+}
+function setScroll(y){ if (lenis) lenis.scrollTo(y, {immediate:true, force:true}); else scrollTo(0, y); }
+const tc = t => { const f = Math.floor(t*FPS), ff = f % FPS, ss = Math.floor(f/FPS) % 60, mm = Math.floor(f/FPS/60); return `00:${String(mm).padStart(2,"0")}:${String(ss).padStart(2,"0")}:${String(ff).padStart(2,"0")}`; };
+function draw(){
+  if (!TL.ready) return;
+  const w = $("#tlTrack").clientWidth, frac = TL.total ? TL.t / TL.total : 0;
+  $("#tlHead").style.transform = `translateX(${(frac * w).toFixed(1)}px)`;
+  $("#tlTC").textContent = tc(TL.t);
+  $("#tlTrack").setAttribute("aria-valuenow", Math.round(frac*100));
+  const i = chAt(TL.t);
+  if (i !== TL.cur) {
+    TL.cur = i;
+    document.querySelectorAll(".tl-clip").forEach((c,k) => c.classList.toggle("on", k === i));
+    $("#tlLbl").textContent = tt(TL.chapters[i].k);
+    if (TL.playing) enterChapter(i);
+  }
+}
+async function enterChapter(i){
+  const c = TL.chapters[i], id = ++T_.id;
+  const root = document.querySelector(`[data-sec="${c.sec}"]`);
+  if (root) [root, ...root.querySelectorAll("*")].forEach(n => { if (n.matches && n.matches(BUILD_SEL) && !n.dataset.built) reveal(n); });
+  tourLayer(); caption(i, TL.chapters.length, c);
+  gsap.fromTo("#tcBar", {scaleX:0}, {scaleX:1, duration: c.dur / T_.speed, ease:"none", overwrite:true});
+  for (const sel of c.focus.slice(0, 2)) { await focusOn(document.querySelector(sel), id); if (T_.id !== id) return; }
+}
+function play(){
+  if (!TL.ready) buildChapters();
+  if (TL.t >= TL.total - .05) { TL.t = 0; setScroll(0); }
+  TL.playing = true; T_.on = true; TL.cur = -1; B.queue.length = 0;
+  $("#bbar").classList.add("playing");
+  $("#tlPlay").innerHTML = '<svg viewBox="0 0 10 10" aria-hidden="true"><rect x="2" y="1.5" width="2.2" height="7" rx=".6"/><rect x="5.8" y="1.5" width="2.2" height="7" rx=".6"/></svg>';
+  $("#tlPlay").setAttribute("aria-label","Pause the tour");
+  if (lenis) lenis.stop();
+}
+function pause(keepCaption){
+  if (!TL.playing && !T_.on) return;
+  TL.playing = false; T_.on = false; T_.id++;
+  $("#bbar").classList.remove("playing");
+  $("#tlPlay").innerHTML = '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 1v8l7-4z"/></svg>';
+  $("#tlPlay").setAttribute("aria-label","Play the tour");
+  if (!keepCaption) $("#tourCap").classList.remove("on");
+  gsap.killTweensOf("#tcBar");
   if (T_.guide) gsap.to(T_.guide, {autoAlpha:0, duration:.3});
   if (T_.box) gsap.to(T_.box, {autoAlpha:0, duration:.3});
-  if (lenis) lenis.stop(), lenis.start();
+  if (lenis) lenis.start();
 }
-$("#bTour").addEventListener("click", startTour);
+function finish(){
+  pause(true);
+  $("#tcN").textContent = "✓"; $("#tcS").textContent = ""; $("#tcT").textContent = tt("end"); $("#tcP").textContent = "";
+  $("#tourCap").classList.add("on"); setTimeout(() => { if (!TL.playing) $("#tourCap").classList.remove("on"); }, 2800);
+}
+(function tick(now){
+  requestAnimationFrame(tick);
+  const dt = Math.min(.1, (now - TL.last) / 1000); TL.last = now;
+  if (!TL.ready) return;
+  if (TL.playing) { TL.t = Math.min(TL.total, TL.t + dt * T_.speed); setScroll(yAt(TL.t)); if (TL.t >= TL.total) finish(); }
+  else if (!TL.scrub) TL.t = tAt(scrollY);
+  draw();
+})(performance.now());
+// scrubbing
+function seekFromX(x){ const r = $("#tlTrack").getBoundingClientRect(); TL.t = Math.min(TL.total, Math.max(0, (x - r.left) / r.width * TL.total)); setScroll(yAt(TL.t)); }
+$("#tlTrack").addEventListener("pointerdown", e => {
+  if (!TL.ready) buildChapters();
+  pause(); TL.scrub = true; $("#tlTrack").setPointerCapture(e.pointerId); seekFromX(e.clientX);
+  const ch = e.target.closest(".tl-clip");
+  if (ch && e.pointerType !== "mouse") { TL.t = TL.chapters[+ch.dataset.ch].t0; setScroll(yAt(TL.t)); }
+});
+$("#tlTrack").addEventListener("pointermove", e => { if (TL.scrub) seekFromX(e.clientX); });
+["pointerup","pointercancel"].forEach(ev => $("#tlTrack").addEventListener(ev, () => { if (!TL.scrub) return; TL.scrub = false; window.ScrollTrigger && ScrollTrigger.update(); }));
+$("#tlTrack").addEventListener("keydown", e => {
+  const step = {ArrowRight:2, ArrowLeft:-2, PageDown:6, PageUp:-6}[e.key]; if (step == null && e.key !== "Home" && e.key !== "End") return;
+  e.preventDefault(); pause(); TL.t = e.key === "Home" ? 0 : e.key === "End" ? TL.total : Math.min(TL.total, Math.max(0, TL.t + step)); setScroll(yAt(TL.t));
+});
+$("#tlPlay").addEventListener("click", () => TL.playing ? pause() : play());
 $("#bSpeed").addEventListener("click", () => { T_.speed = T_.speed === 1 ? 2 : 1; $("#bSpeed").textContent = T_.speed + "×"; });
-$("#bClose").addEventListener("click", () => { stopTour(); $("#bbar").classList.add("gone"); try { sessionStorage.setItem("aswany-bar","off"); } catch(_) {} });
-// the visitor takes over: any manual scroll or key stops the tour
-["wheel","touchstart"].forEach(ev => addEventListener(ev, e => { if (T_.on && !e.target.closest(".bbar")) stopTour(); }, {passive:true}));
-addEventListener("keydown", e => { if (T_.on && ["Escape","ArrowDown","ArrowUp","PageDown","PageUp","Space"," "].includes(e.key)) stopTour(); });
-function showBar(){ let off = false; try { off = sessionStorage.getItem("aswany-bar") === "off"; } catch(_) {} if (!PREVIEW && !off) $("#bbar").classList.remove("gone"); $("#bTourL").textContent = tt("tour"); }
+$("#bClose").addEventListener("click", () => { pause(); $("#bbar").classList.add("gone"); try { sessionStorage.setItem("aswany-bar","off"); } catch(_) {} });
+["wheel","touchstart"].forEach(ev => addEventListener(ev, e => { if (TL.playing && !e.target.closest(".tl")) pause(); }, {passive:true}));
+addEventListener("keydown", e => { if (TL.playing && ["Escape","ArrowDown","ArrowUp","PageDown","PageUp"].includes(e.key) && !e.target.closest(".tl")) pause(); });
+let rbT; const rebuild = () => { clearTimeout(rbT); rbT = setTimeout(() => { const keep = TL.playing; buildChapters(); if (keep) TL.cur = -1; }, 200); };
+addEventListener("resize", rebuild); addEventListener("load", rebuild);
+if (window.ResizeObserver) new ResizeObserver(rebuild).observe(document.body);
+function showBar(){ let off = false; try { off = sessionStorage.getItem("aswany-bar") === "off"; } catch(_) {} buildChapters(); if (!PREVIEW && !off) $("#bbar").classList.remove("gone"); }
 
 /* =========================== BOOT =========================== */
 (async function boot(){
